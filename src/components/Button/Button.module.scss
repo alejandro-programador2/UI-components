@@ -73,7 +73,7 @@
   --button-bg-color: var(--clr-primary-300);
 }
 
-:where([disabled]) {
+:where(.c-button[disabled]) {
   --button-bg-color: var(--clr-neutral-500);
   --button-text-color: var(--clr-primary-100);
   text-decoration-line: line-through;

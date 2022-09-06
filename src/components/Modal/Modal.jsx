@@ -8,7 +8,7 @@ import { iconList } from "../Icon/Icon";
 
 import css from "./Modal.module.scss";
 
-export const Modal = ({ button, addClass, children, isOpen, ...props }) => {
+export const Modal = ({ button, addClass, children, onOpen, ...props }) => {
    // Estado que oculta o muestra el modal
    const [hiddenModal, setHiddenModal] = useState(true);
    const refButton = useRef(null);
@@ -38,13 +38,13 @@ export const Modal = ({ button, addClass, children, isOpen, ...props }) => {
    };
 
    useEffect(() => {
-      isOpen && isOpen(!hiddenModal);
+      onOpen && onOpen(!hiddenModal);
       if (hiddenModal) {
          refButton.current.focus();
       } else {
          refModal.current.focus();
       }
-   }, [hiddenModal, isOpen]);
+   }, [hiddenModal]);
 
    return (
       <>
@@ -113,7 +113,7 @@ Modal.propTypes = {
       addClass: PropTypes.string,
    }),
    addClass: PropTypes.string,
-   isOpen: PropTypes.func,
+   onOpen: PropTypes.func,
 };
 
 Modal.defaultProps = {
