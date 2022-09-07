@@ -41,7 +41,7 @@ export const Select = forwardRef(({ children, addClass, placeholder, label, icon
                   {placeholder}
                </option>
                {/* Filtramos los children para solo aceptar de tipo option. */}
-               {getChildrenByType(children, ["option"])}
+               {getChildrenByType(children, ["option", "optgroup"])}
             </select>
 
             <Icon name={`${icon ?? "arrow_drop_down"}`} addClass={css["c-select__icon"]} />

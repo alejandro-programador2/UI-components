@@ -5,7 +5,7 @@ import css from "./Icon.module.scss";
 
 export const iconList = ["close", "check", "play", "pause", "volume_on", "volume_off", "done_all", "arrow_drop_down"];
 
-export const Icon = ({ name, size, addClass, ...props }) => {
+export const Icon = ({ name, size, addClass }) => {
    if (!name) {
       return null;
    }
@@ -18,7 +18,6 @@ export const Icon = ({ name, size, addClass, ...props }) => {
          viewBox="0 0 48 48"
          className={`${css["c-icon"]} ${css[`c-${size}`]} ${addClass ?? ""}`}
          aria-hidden="true"
-         {...props}
       >
          <use xlinkHref={`./svg/${name}.svg#${name}`}></use>
       </svg>

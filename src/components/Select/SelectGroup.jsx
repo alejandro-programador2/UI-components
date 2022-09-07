@@ -29,11 +29,10 @@ export const SelectGroup = ({ children: childrenProps, onAllSelect }) => {
       return child;
    });
 
-   /* Filtramos los children para solo aceptar de tipo Select. */
    return children;
 };
 
 SelectGroup.propTypes = {
-   children: PropTypes.any,
+   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.arrayOf(PropTypes.element), PropTypes.element, PropTypes.node]),
    onAllSelect: PropTypes.func,
 };

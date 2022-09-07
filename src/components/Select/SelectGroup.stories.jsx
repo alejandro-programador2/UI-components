@@ -17,15 +17,19 @@ export default {
 
 export const DefaultSelectGroup = (args) => (
    <SelectGroup {...args}>
-      <Select addClass="u-my-2">
-         <option value={1}>Lorem, ipsum dolor.</option>
-         <option value={2}>Lorem, ipsum dolor.</option>
-         <option value={3}>Lorem, ipsum dolor.</option>
+      <Select addClass="u-my-4">
+         <optgroup label="Lorem, ipsum">
+            <option value={1}>Lorem, ipsum dolor.</option>
+            <option value={2}>Lorem, ipsum dolor.</option>
+            <option value={3}>Lorem, ipsum dolor.</option>
+         </optgroup>
       </Select>
       <Select>
-         <option value={1}>Lorem, ipsum dolor.</option>
-         <option value={2}>Lorem, ipsum dolor.</option>
-         <option value={3}>Lorem, ipsum dolor.</option>
+         <optgroup label="Lorem, ipsum">
+            <option value={1}>Lorem, ipsum dolor.</option>
+            <option value={2}>Lorem, ipsum dolor.</option>
+            <option value={3}>Lorem, ipsum dolor.</option>
+         </optgroup>
       </Select>
    </SelectGroup>
 );

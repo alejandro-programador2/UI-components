@@ -2,6 +2,7 @@ label {
     --select-border: var(--clr-neutral-400);
     --select-focus: var(--clr-primary-400);
     --select-arrow: var(--select-border);
+    display: block;
 }
 
 :where(.c-select-wrapper) {
@@ -23,7 +24,7 @@ label {
     border-radius: 0.375rem;
     border: 1px solid var(--select-border);
     background-color: var(--clr-common-white-100);
-    transition: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform 300ms;
+    transition: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, 300ms;
 }
 
 // Remove dropdown arrow in IE10 & IE11
