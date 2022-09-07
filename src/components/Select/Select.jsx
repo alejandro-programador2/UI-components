@@ -35,7 +35,7 @@ export const Select = forwardRef(({ children, addClass, placeholder, label, icon
                className={css["c-select"]}
                onChange={onChange}
                disabled={isDisabled}
-               require={isRequired}
+               required={isRequired}
             >
                <option value={"default"} disabled>
                   {placeholder}
