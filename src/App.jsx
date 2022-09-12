@@ -1,3 +1,3 @@
 export const App = () => {
-   return <h1>UI-components</h1>;
+   return <h1>Ui-components</h1>;
 };
