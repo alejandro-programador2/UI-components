@@ -20,7 +20,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "storybook": "start-storybook -p 6006 -s public",
-    "test-storybook": "test-storybook --no-dll",
+    "test-storybook": "test-storybook",
     "build-storybook": "build-storybook -s public --no-dll",
     "storybook-docs": "start-storybook --docs --no-manager-cache",
     "build-storybook-docs": "build-storybook --docs "

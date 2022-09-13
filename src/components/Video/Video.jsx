@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { createRef, useState, useEffect } from "react";
 import css from "./Video.module.scss";
-import { Icon } from "../Icon/Icon";
+import { Icon } from "components/Icon";
 
 /**
  * Usuario: bb-frontend-7
