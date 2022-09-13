@@ -3,7 +3,19 @@ import PropTypes from "prop-types";
 import { typeValidation } from "utils/validations/typeValidation";
 import css from "./Icon.module.scss";
 
-export const iconList = ["close", "check", "play", "pause", "volume_on", "volume_off", "done_all", "arrow_drop_down"];
+export const iconList = [
+   "close",
+   "check",
+   "play",
+   "pause",
+   "volume_on",
+   "volume_off",
+   "done_all",
+   "fullscreen",
+   "fullscreen_exit",
+   "arrow_drop_down",
+   "closed_caption",
+];
 
 export const Icon = ({ name, size, addClass }) => {
    if (!name) {
