@@ -23,6 +23,8 @@ jobs:
       - name: Install dependencies if cache invalid
         if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm install
+      - name: 'clean cache'
+        run: npm cache clean --force
   # Run interaction and accessibility tests
   interaction-and-accessibility:
     runs-on: ubuntu-latest
