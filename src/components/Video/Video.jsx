@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import css from "./Video.module.scss";
 import { Icon } from "components/Icon";
 
@@ -13,7 +13,7 @@ import { Icon } from "components/Icon";
  * - content: descripción del caption del video.
  * - addClass: clase adicional que se le agregue al reproductor.
  **/
-function Video({ url, width = "1000", hasDescription, description, addClass, src, poster, ...props }) {
+export const Video = ({ url, width = "1000", hasDescription, description, addClass, src, poster, ...props }) => {
    // Estado duracion del video
    const [getDurationVideo, setDurationVideo] = useState({
       seconds: 0,
@@ -383,18 +383,14 @@ function Video({ url, width = "1000", hasDescription, description, addClass, src
                </button>
             </div>
          </div>
-         {hasDescription ? (
+         {hasDescription && (
             <figcaption>
                <strong>{description.title}:</strong> {description.content}
             </figcaption>
-         ) : (
-            <></>
          )}
       </figure>
    );
-}
-
-export { Video };
+};
 
 Video.propTypes = {
    url: PropTypes.string.isRequired,
@@ -407,8 +403,4 @@ Video.propTypes = {
    }),
    src: PropTypes.string,
    poster: PropTypes.string,
-};
-
-Video.defaultProps = {
-   addClass: "",
 };

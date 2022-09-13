@@ -4,7 +4,6 @@ import { typeValidation } from "utils/validations/typeValidation";
 import css from "./Icon.module.scss";
 
 export const iconList = [
-   "",
    "close",
    "check",
    "play",
@@ -14,6 +13,7 @@ export const iconList = [
    "done_all",
    "fullscreen",
    "fullscreen_exit",
+   "arrow_drop_down",
    "closed_caption",
 ];
 
