@@ -15,6 +15,9 @@ export const iconList = [
    "fullscreen_exit",
    "arrow_drop_down",
    "closed_caption",
+   "closed_caption_disabled",
+   "fast_forward",
+   "fast_rewind",
 ];
 
 export const Icon = ({ name, size, addClass }) => {

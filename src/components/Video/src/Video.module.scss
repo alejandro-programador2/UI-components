@@ -78,11 +78,20 @@
   grid-area: stack;
 }
 
-.video-icon {
-  display: none;
+.icon-container {
+  display: grid;
+  grid-auto-flow: column;
   place-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.video-icon {
+  display: grid;
+  place-items: center;
+  visibility: hidden;
   aspect-ratio: 1;
-  height: 50%;
+  height: 30%;
   background-color: hsl(282 62 17 / 0.8);
   font-size: 3.75rem;
   border-radius: 50%;
@@ -90,7 +99,7 @@
 }
 
 .video-icon.active {
-  display: grid;
+  visibility: visible;
   animation-name: iconPulse;
   animation-duration: 700ms;
 }
@@ -104,12 +113,13 @@
   100% {
     transform: scale(1.2);
     opacity: 0;
+    display: none;
   }
 }
 
 .video-icon svg {
-  width: 80%;
-  height: 80%;
+  width: 60%;
+  height: 60%;
 }
 
 .progress {
@@ -197,6 +207,11 @@
   color: var(--clr-complementary-900);
   background-color: whitesmoke;
   border: 2px solid transparent;
+}
+
+.subtitles[disabled] {
+  color: var(--clr-complementary-300);
+  cursor: not-allowed;
 }
 
 .subtitles[aria-pressed="true"]:hover {

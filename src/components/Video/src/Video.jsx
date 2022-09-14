@@ -16,12 +16,18 @@ import { Icon } from "components/Icon";
 export const Video = ({ url, width = "1000", hasDescription, description, addClass, src, poster, ...props }) => {
    // Estado duracion del video
    const [getDurationVideo, setDurationVideo] = useState({
+      totalSeconds: 0,
+      hours: 0,
+      minutes: 0,
       seconds: 0,
       string: "00:00",
    });
 
    // Estado del play
    const [getCurrentTime, setCurrentTime] = useState({
+      totalSeconds: 0,
+      hours: 0,
+      minutes: 0,
       seconds: 0,
       string: "00:00",
    });
@@ -50,13 +56,25 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
    const refVideo = useRef(null);
    const refProgress = useRef(null);
    const refVolume = useRef(null);
-   const refPulse = useRef(null);
+   const refPlayPulse = useRef(null);
+   const refForwardPulse = useRef(null);
+   const refRewindPulse = useRef(null);
    const [captions, setCaptions] = useState(false);
+
+   /**
+    * Cambia la clase del elemento para generar la animación de pulse
+    * @param {element} element - elemento del DOM a animar
+    */
+   const pulseAnimation = (element) => {
+      element.classList.add(`${css.active}`);
+      setTimeout(() => {
+         element.classList.remove(`${css.active}`);
+      }, 650);
+   };
 
    /**
     * Cambia el video entre reproduciendo y pausado
     */
-
    function handlePlay() {
       const $video = refVideo.current;
       // $video.
@@ -73,10 +91,7 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
             label: "Pausar video",
          });
       }
-      refPulse.current.classList.add(`${css.active}`);
-      setTimeout(() => {
-         refPulse.current.classList.remove(`${css.active}`);
-      }, 700);
+      pulseAnimation(refPlayPulse.current);
    }
 
    /**
@@ -126,53 +141,73 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
    }
 
    /**
-    * Calcula la posición de la barra de progreso
+    * Calcula la cantidad de horas, minutos y segundos
+    * @param {number} time - Valor en segundos del que se necesita hacer el cálculo
+    * @returns {object} - { hours: number, minutes: number, seconds: number }
     */
-   // function handleBarProgress() {
-   //    const video = refVideo.current;
-   //    const progressElem = refProgressBar.current;
-   //    const porcent = (video.currentTime / video.duration) * 100;
-   //    progressElem.style.flexBasis = `${porcent}%`;
-   // }
+   function getTime(time) {
+      const secondsNumber = parseInt(time, 10);
+
+      // Calcula la cantidad de horas, minutos y segundos del video
+      const hours = secondsNumber >= 3600 ? Math.floor(secondsNumber / 3600) : 0;
+      const minutes = Math.floor((secondsNumber - hours * 3600) / 60);
+      const seconds = secondsNumber - hours * 3600 - minutes * 60;
+
+      // Valida si los valores calculados son válidos
+      const validateHours = validateIsNan(validateDigits(hours));
+      const validateMinutes = validateIsNan(validateDigits(minutes));
+      const validateSeconds = validateIsNan(validateDigits(seconds));
+
+      return {
+         hours: validateHours,
+         minutes: validateMinutes,
+         seconds: validateSeconds,
+      };
+   }
 
    /**
-    * Calcula el tiempo del video y el tiempo transcurrido y crea los strings respectivos
+    *
+    * @param {element} element - Elemento del DOM a calcular
     */
-
-   // funcion inicial
    function initialValues(element) {
-      const durationVideo = hourToString(element.duration || 0);
+      const durationVideo = hourToString(element.duration);
       const travelVideo = hourToString(element.currentTime);
       setCurrentTime({
-         seconds: element.currentTime,
+         totalSeconds: element.currentTime,
+         hours: parseInt(getTime(element.currentTime).hours),
+         minutes: parseInt(getTime(element.currentTime).minutes),
+         seconds: parseInt(getTime(element.currentTime).seconds),
          string: travelVideo,
       });
       setDurationVideo({
-         seconds: Math.floor(element.duration),
+         totalSeconds: Math.floor(element.duration),
+         hours: parseInt(getTime(element.duration).hours),
+         minutes: parseInt(getTime(element.duration).minutes),
+         seconds: parseInt(getTime(element.duration).seconds),
          string: durationVideo,
       });
    }
 
-   // funcion saca segundos, minutos, horas
+   /**
+    * Convierte las horas, minutos y segundos del video en un string en formato de hora
+    * @param { number } timeSeconds - Segundos a calcular
+    * @returns {string} - Tiempo en formato de hora
+    */
    function hourToString(timeSeconds) {
       const secondsNumber = parseInt(timeSeconds, 10);
-      const hours = secondsNumber >= 3600 ? Math.floor(secondsNumber / 3600) : "0";
-      const minutes = Math.floor((secondsNumber - hours * 3600) / 60);
-      const seconds = secondsNumber - hours * 3600 - minutes * 60;
-      // valores validados si son mas de dos digitos
-      const validateHours = validateIsNan(validateDigits(hours));
-      // se valida si el value es NaN
-      const validateMinutes = validateIsNan(validateDigits(minutes));
-      const validateSeconds = validateIsNan(validateDigits(seconds));
 
       if (secondsNumber <= 3600) {
-         return `${validateMinutes}:${validateSeconds}`;
+         return `${getTime(timeSeconds).minutes}:${getTime(timeSeconds).seconds}`;
       } else {
-         return `${hours === 0 ? "" : validateHours}:${validateMinutes}:${validateSeconds}`;
+         return `${getTime(timeSeconds).hours}:${getTime(timeSeconds).minutes}:${getTime(timeSeconds).seconds}`;
       }
    }
 
-   // funcion para validar la cantidad de digitos y agregarles el 0
+   /**
+    * Validad la cantidad de dígitos y agrega un 0 si es necesario
+    * @param {number} value - Cantidad a validad
+    * @returns {string}
+    */
    function validateDigits(value) {
       if (value < 10) {
          return (value = "0" + value);
@@ -180,7 +215,12 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
          return value;
       }
    }
-   // funcion valida si el valor ingresado es Na-n
+
+   /**
+    * Revisa si el número es válido, si no, retorna "00"
+    * @param {number} elem - Valor a validad
+    * @returns {string}
+    */
    function validateIsNan(elem) {
       return isNaN(elem) ? "00" : elem;
    }
@@ -244,36 +284,60 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
       }
    };
 
-   const handleCaptions = function () {
-      setCaptions(!captions);
-   };
-
+   /**
+    * Permite pausar o reproducir el video presionando la tecla Space (solo en la barra de progreso)
+    * @param {event} e - Evento del teclado
+    */
    const handleProgressBar = function (e) {
-      const currentTime = Math.floor(refProgress.current.getAttribute("aria-valuenow"));
-
       if ((e.keyCode || e.which) === 32) {
          handlePlay();
       }
+   };
 
-      if ((e.keyCode || e.which) === 37) {
-         const actualTime = currentTime - 5;
-         if (actualTime >= 0) {
-            refVideo.current.currentTime = actualTime;
-         } else {
-            refVideo.current.currentTime = 0;
+   /**
+    * Agrega funcionalidad a las flechas izquierda y derecha para adelantar o retrasar 5 segundos el video
+    * @param {event} e - Evento del teclado
+    * @returns
+    */
+   const handleArrowKeys = function (e) {
+      const currentTime = Math.floor(refProgress.current.getAttribute("aria-valuenow"));
+
+      if (document.activeElement === refVolume.current) {
+         return null;
+      } else {
+         if ((e.keyCode || e.which) === 37) {
+            const actualTime = currentTime - 5;
+            if (actualTime >= 0) {
+               refVideo.current.currentTime = actualTime;
+            } else {
+               refVideo.current.currentTime = 0;
+            }
+            pulseAnimation(refRewindPulse.current);
          }
-      }
 
-      if ((e.keyCode || e.which) === 39) {
-         const actualTime = currentTime + 5;
-         if (actualTime >= refVideo.current.duration) {
-            refVideo.current.currentTime = refVideo.current.duration;
-         } else {
-            refVideo.current.currentTime = actualTime;
+         if ((e.keyCode || e.which) === 39) {
+            const actualTime = currentTime + 5;
+            if (actualTime >= refVideo.current.duration) {
+               refVideo.current.currentTime = refVideo.current.duration;
+            } else {
+               refVideo.current.currentTime = actualTime;
+            }
+            pulseAnimation(refForwardPulse.current);
          }
       }
    };
 
+   /**
+    * Convierte los valores numéricos en una frase para usar como el aria-valuetext
+    * @returns
+    */
+   const getTextValueString = () => {
+      return getDurationVideo >= 3600
+         ? `${getCurrentTime.hours} horas, ${getCurrentTime.minutes} minutos y ${getCurrentTime.seconds} segundos de ${getDurationVideo.hours} horas, ${getDurationVideo.minutes} y ${getDurationVideo.seconds} segundos`
+         : `${getCurrentTime.minutes} minutos y ${getCurrentTime.seconds} segundos de ${getDurationVideo.minutes} minutos y ${getDurationVideo.seconds} segundos`;
+   };
+
+   // Revisa en local storage los valores de volumen y estado de pressed de subtítulos y los aplica al componente
    useEffect(() => {
       const storage = JSON.parse(localStorage.getItem("ui-video")) || {};
       if (Object.prototype.hasOwnProperty.call(storage, "caption")) {
@@ -284,47 +348,49 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
       }
    }, []);
 
+   // Almacena en local storage los valores de volumen y estado de pressed de subtítulos
    useEffect(() => {
       localStorage.setItem("ui-video", JSON.stringify({ caption: captions, volume: getValueVolume }));
    }, [captions, getValueVolume]);
 
-   // useEffect(() => {
-   //    if (refVideo.current) {
-   //       initialValues(refVideo.current);
-   //    }
-   // }, [refVideo.current]);
-
    return (
-      <figure className={`${css["c-vid-container"]} ${addClass}`} {...props}>
+      <figure className={`${css["c-vid-container"]} ${addClass}`} onKeyDown={(e) => handleArrowKeys(e)} {...props}>
          <div className={`${css["c-vid"]} ${addClass}`} ref={refCont} style={{ maxWidth: `${width}px` }}>
             <div className={css["video-wrapper"]}>
                <video
                   ref={refVideo}
                   onTimeUpdate={(event) => initialValues(event.target)}
                   onLoadedData={(event) => initialValues(event.target)}
+                  onClick={handlePlay}
                   className={`${captions ? "" : css["no-captions"]}`}
                   poster={`assets/images/${poster}.png`}
                >
                   <source src={url} />
                   <track src={src} label="Subtítulos en español" kind="subtitles" srcLang="es" default />
                </video>
-               <div ref={refPulse} className={css["video-icon"]}>
-                  <Icon name={getstateVideoPlay.state ? "play" : "pause"} />
+               <div className={css["icon-container"]}>
+                  <div ref={refRewindPulse} className={css["video-icon"]}>
+                     <Icon name="fast_rewind" />
+                  </div>
+                  <div ref={refPlayPulse} className={css["video-icon"]}>
+                     <Icon name={getstateVideoPlay.state ? "play" : "pause"} />
+                  </div>
+                  <div ref={refForwardPulse} className={css["video-icon"]}>
+                     <Icon name="fast_forward" />
+                  </div>
                </div>
             </div>
 
             <div className={css["progress-container"]}>
-               {/* <div ref={refProgress} className={css.progress} onClick={handleProcessControl}>
-                  <div ref={refProgressBar} className={css["progress-bar"]} onChange={handleBarProgress} />
-               </div> */}
                <div
                   role="slider"
                   aria-label="Progreso del video"
                   aria-valuemin="0"
-                  aria-valuenow={getCurrentTime.seconds}
-                  aria-valuemax={getDurationVideo.seconds}
+                  aria-valuenow={getCurrentTime.totalSeconds}
+                  aria-valuemax={getDurationVideo.totalSeconds}
+                  aria-valuetext={getTextValueString()}
                   tabIndex="0"
-                  onKeyDown={(e) => handleProgressBar(e)}
+                  onKeyDown={handleProgressBar}
                   className={css.progress}
                   onClick={handleProcessControl}
                   ref={refProgress}
@@ -332,13 +398,13 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
                   <div
                      className={css["progress-bar"]}
                      style={{
-                        transform: `scaleX(calc(${getCurrentTime.seconds} / ${getDurationVideo.seconds}))`,
+                        transform: `scaleX(calc(${getCurrentTime.totalSeconds} / ${getDurationVideo.totalSeconds}))`,
                      }}
                   ></div>
                   <div
                      className={css["progress-sphere"]}
                      style={{
-                        left: `calc((${getCurrentTime.seconds} / ${getDurationVideo.seconds}) * 100 * 1%)`,
+                        left: `min(calc((${getCurrentTime.totalSeconds} / ${getDurationVideo.totalSeconds}) * 100 * 1%), 99%)`,
                      }}
                   ></div>
                </div>
@@ -370,12 +436,18 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
                   </label>
                </div>
 
-               <p className={css["c-vid-controls-text"]}>
+               <p className={css["c-vid-controls-text"]} aria-hidden="true">
                   <span>{getCurrentTime.string}</span>/<span>{getDurationVideo.string}</span>
                </p>
 
-               <button aria-pressed={captions} onClick={handleCaptions} aria-label="Subtítulos" className={css.subtitles}>
-                  <Icon name="closed_caption" />
+               <button
+                  disabled={src === ""}
+                  aria-pressed={src === "" ? undefined : captions}
+                  onClick={() => setCaptions(!captions)}
+                  aria-label="Subtítulos"
+                  className={css.subtitles}
+               >
+                  <Icon name={src === "" ? "closed_caption_disabled" : "closed_caption"} />
                </button>
 
                <button aria-label={getStateScreen.label} onClick={hanldeFullScrenn}>
@@ -403,4 +475,10 @@ Video.propTypes = {
    }),
    src: PropTypes.string,
    poster: PropTypes.string,
+};
+
+Video.defaultProps = {
+   url: "",
+   src: "",
+   addClass: "",
 };
