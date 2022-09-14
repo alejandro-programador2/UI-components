@@ -3,7 +3,7 @@ import { getChildrenByType } from "utils/validations/getChildrenType";
 
 export const OrderedList = ({ children, addClass, ...props }) => {
    return (
-      <ol className={`${addClass ?? ""}`} {...props}>
+      <ol {...(addClass && { className: `${addClass}` })} {...props}>
          {getChildrenByType(children, ["ListItem"])}
       </ol>
    );

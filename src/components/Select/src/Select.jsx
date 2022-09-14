@@ -22,7 +22,7 @@ export const Select = forwardRef(({ children, addClass, placeholder, label, icon
    };
 
    return (
-      <label htmlFor={select} className={`${addClass ?? ""}`}>
+      <label htmlFor={select} {...(addClass && { className: `${addClass}` })}>
          <span className={`${!isLabelVisible && "u-sr-only"}`}> {label} </span>
 
          <div className={css["c-select-wrapper"]}>

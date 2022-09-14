@@ -32,7 +32,7 @@ export const Tabs = ({ children, defaultIndex, addClass, ...props }) => {
 
    return (
       <TabsContext.Provider value={{ validation, onToggle }}>
-         <div className={`${addClass ?? ""}`} {...props}>
+         <div {...(addClass && { className: `${addClass}` })} {...props}>
             {/* Filtramos los children para solo aceptar de tipo TabPanels y TabList. */}
             {getChildrenByType(children, ["TabList", "TabPanels"])}
          </div>
