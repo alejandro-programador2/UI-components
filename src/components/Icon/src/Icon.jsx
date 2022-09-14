@@ -14,6 +14,7 @@ export const iconList = [
    "fullscreen",
    "fullscreen_exit",
    "arrow_drop_down",
+   "arrow_drop_up",
    "closed_caption",
 ];
 
