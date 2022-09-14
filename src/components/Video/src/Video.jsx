@@ -1,7 +1,8 @@
-import PropTypes from "prop-types";
 import { useRef, useState, useEffect } from "react";
-import css from "./Video.module.scss";
+import PropTypes from "prop-types";
 import { Icon } from "components/Icon";
+
+import css from "./Video.module.scss";
 
 /**
  * Usuario: bb-frontend-7
@@ -354,27 +355,30 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
    }, [captions, getValueVolume]);
 
    return (
-      <figure className={`${css["c-vid-container"]} ${addClass}`} onKeyDown={(e) => handleArrowKeys(e)} {...props}>
-         <div className={`${css["c-vid"]} ${addClass}`} ref={refCont} style={{ maxWidth: `${width}px` }}>
+      <figure className={`${css["c-vid-container"]} ${addClass ?? ""}`} onKeyDown={handleArrowKeys} {...props}>
+         <div ref={refCont} className={`${css["c-vid"]} ${addClass ?? ""}`} style={{ maxWidth: `${width}px` }}>
             <div className={css["video-wrapper"]}>
                <video
                   ref={refVideo}
+                  className={`${captions ? "" : css["no-captions"]}`}
                   onTimeUpdate={(event) => initialValues(event.target)}
                   onLoadedData={(event) => initialValues(event.target)}
                   onClick={handlePlay}
-                  className={`${captions ? "" : css["no-captions"]}`}
-                  poster={`assets/images/${poster}.png`}
+                  {...(poster && { poster })}
                >
                   <source src={url} />
-                  <track src={src} label="Subtítulos en español" kind="subtitles" srcLang="es" default />
+                  {src && <track src={src} label="Subtítulos en español" kind="subtitles" srcLang="es" default />}
                </video>
+
                <div className={css["icon-container"]}>
                   <div ref={refRewindPulse} className={css["video-icon"]}>
                      <Icon name="fast_rewind" />
                   </div>
+
                   <div ref={refPlayPulse} className={css["video-icon"]}>
                      <Icon name={getstateVideoPlay.state ? "play" : "pause"} />
                   </div>
+
                   <div ref={refForwardPulse} className={css["video-icon"]}>
                      <Icon name="fast_forward" />
                   </div>
@@ -383,17 +387,17 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
 
             <div className={css["progress-container"]}>
                <div
+                  ref={refProgress}
                   role="slider"
+                  tabIndex={0}
                   aria-label="Progreso del video"
                   aria-valuemin="0"
                   aria-valuenow={getCurrentTime.totalSeconds}
                   aria-valuemax={getDurationVideo.totalSeconds}
                   aria-valuetext={getTextValueString()}
-                  tabIndex="0"
-                  onKeyDown={handleProgressBar}
                   className={css.progress}
+                  onKeyDown={handleProgressBar}
                   onClick={handleProcessControl}
-                  ref={refProgress}
                >
                   <div
                      className={css["progress-bar"]}
@@ -401,6 +405,7 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
                         transform: `scaleX(calc(${getCurrentTime.totalSeconds} / ${getDurationVideo.totalSeconds}))`,
                      }}
                   ></div>
+
                   <div
                      className={css["progress-sphere"]}
                      style={{
@@ -441,13 +446,13 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
                </p>
 
                <button
-                  disabled={src === ""}
-                  aria-pressed={src === "" ? undefined : captions}
+                  disabled={!src}
+                  className={css.subtitles}
                   onClick={() => setCaptions(!captions)}
                   aria-label="Subtítulos"
-                  className={css.subtitles}
+                  {...(!!src && { "aria-pressed": captions })}
                >
-                  <Icon name={src === "" ? "closed_caption_disabled" : "closed_caption"} />
+                  <Icon name={!src ? "closed_caption_disabled" : "closed_caption"} />
                </button>
 
                <button aria-label={getStateScreen.label} onClick={hanldeFullScrenn}>
@@ -475,10 +480,4 @@ Video.propTypes = {
    }),
    src: PropTypes.string,
    poster: PropTypes.string,
-};
-
-Video.defaultProps = {
-   url: "",
-   src: "",
-   addClass: "",
 };

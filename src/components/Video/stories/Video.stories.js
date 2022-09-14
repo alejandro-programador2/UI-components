@@ -1,5 +1,5 @@
 import React from "react";
-import { Video } from "../src/Video";
+import { Video } from "components/Video";
 
 export default {
    title: "ui-components/Video",
