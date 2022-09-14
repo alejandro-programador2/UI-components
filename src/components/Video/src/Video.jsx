@@ -354,28 +354,28 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
    }, [captions, getValueVolume]);
 
    return (
-      <figure className={`${css["c-vid-container"]} ${addClass}`} onKeyDown={(e) => handleArrowKeys(e)} {...props}>
-         <div className={`${css["c-vid"]} ${addClass}`} ref={refCont} style={{ maxWidth: `${width}px` }}>
-            <div className={css["video-wrapper"]}>
+      <figure className={`${css["c-vid"]} ${addClass}`} style={{ maxWidth: `${width}px` }} onKeyDown={(e) => handleArrowKeys(e)} {...props}>
+         <div className={`${css["c-vid__container"]} ${addClass}`} ref={refCont}>
+            <div className={css["c-vid__wrapper"]}>
                <video
                   ref={refVideo}
                   onTimeUpdate={(event) => initialValues(event.target)}
                   onLoadedData={(event) => initialValues(event.target)}
                   onClick={handlePlay}
-                  className={`${captions ? "" : css["no-captions"]}`}
+                  className={`${css["c-vid__video"]} ${captions ? "" : css["no-captions"]}`}
                   poster={`assets/images/${poster}.png`}
                >
                   <source src={url} />
                   <track src={src} label="Subtítulos en español" kind="subtitles" srcLang="es" default />
                </video>
-               <div className={css["icon-container"]}>
-                  <div ref={refRewindPulse} className={css["video-icon"]}>
+               <div className={css["c-vid__icon-container"]}>
+                  <div ref={refRewindPulse} className={css["c-vid__icon"]}>
                      <Icon name="fast_rewind" />
                   </div>
-                  <div ref={refPlayPulse} className={css["video-icon"]}>
+                  <div ref={refPlayPulse} className={css["c-vid__icon"]}>
                      <Icon name={getstateVideoPlay.state ? "play" : "pause"} />
                   </div>
-                  <div ref={refForwardPulse} className={css["video-icon"]}>
+                  <div ref={refForwardPulse} className={css["c-vid__icon"]}>
                      <Icon name="fast_forward" />
                   </div>
                </div>
@@ -410,13 +410,23 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
                </div>
             </div>
 
-            <div className={css["c-vid-controls"]}>
-               <button aria-label={getstateVideoPlay.label} onClick={handlePlay} className={"tour"} data-description="Este botón reproduce el video">
+            <div className={css["c-vid__controls"]}>
+               <button
+                  className={`${css["c-vid__button"]} tour`}
+                  aria-label={getstateVideoPlay.label}
+                  onClick={handlePlay}
+                  data-description="Este botón reproduce el video"
+               >
                   <Icon name={getstateVideoPlay.state ? "pause" : "play"} />
                </button>
 
                <div className={css.flex}>
-                  <button aria-label={getStateMuted.label} className={"tour"} data-description="Este botón controla el volumen" onClick={handleMuted}>
+                  <button
+                     className={`${css["c-vid__button"]} tour`}
+                     aria-label={getStateMuted.label}
+                     data-description="Este botón controla el volumen"
+                     onClick={handleMuted}
+                  >
                      <Icon name={getStateMuted.state ? "volume_on" : "volume_off"} />
                   </button>
                   <label className={css["c-vid-controls-volume"]} htmlFor="volumeControl">
@@ -445,18 +455,18 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
                   aria-pressed={src === "" ? undefined : captions}
                   onClick={() => setCaptions(!captions)}
                   aria-label="Subtítulos"
-                  className={css.subtitles}
+                  className={`${css["c-vid__button"]} ${css["c-vid__subtitles"]}`}
                >
                   <Icon name={src === "" ? "closed_caption_disabled" : "closed_caption"} />
                </button>
 
-               <button aria-label={getStateScreen.label} onClick={hanldeFullScrenn}>
+               <button className={css["c-vid__button"]} aria-label={getStateScreen.label} onClick={hanldeFullScrenn}>
                   <Icon name={getStateScreen.state ? "fullscreen_exit" : "fullscreen"} />
                </button>
             </div>
          </div>
          {hasDescription && (
-            <figcaption>
+            <figcaption className={css["c-vid__caption"]}>
                <strong>{description.title}:</strong> {description.content}
             </figcaption>
          )}

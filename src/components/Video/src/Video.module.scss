@@ -1,16 +1,17 @@
-.c-vid-container figcaption {
+:where(.c-vid) {
+  margin-inline: auto;
+  color: var(--clr-neutral-100);
+}
+
+:where(.c-vid__caption) {
   margin-top: 1.5em;
   text-align: center;
 }
 
-.c-vid {
+:where(.c-vid__container) {
   position: relative;
   display: grid;
   grid-template-rows: auto 6px 2.8125rem;
-  margin-inline: auto;
-  color: #fff;
-  box-sizing: border-box;
-  padding: 0.625rem;
 
   @media screen and (display-mode: fullscreen) {
     display: grid;
@@ -23,62 +24,39 @@
   }
 }
 
-.c-vid video {
+:where(.c-vid__video) {
   outline: none;
   height: 100%;
   width: 100%;
 }
 
-.c-vid-controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.1rem 0.2rem;
-  height: 100%;
-  background-color: var(--clr-complementary-900);
+:where(.c-vid__video::cue) {
+  visibility: visible;
+  color: white;
+  background-color: #2f4f4f;
+  font-family: "Source Sans Pro", sans-serif;
 }
 
-.c-vid-controls button {
-  display: grid;
-  place-items: center;
-  // padding: 0.2em;
-  height: 100%;
-  width: auto;
-  font-size: 1.5rem;
-  color: #fff;
-  border: 0.125rem solid transparent;
-  background-color: transparent;
-  border-radius: 3.2px;
-  cursor: pointer;
-  border-radius: 0.5em;
-  aspect-ratio: 1;
+:where(.c-vid__video::cue(i)) {
+  font-style: italic;
+  color: rgb(249, 205, 160);
 }
 
-.c-vid-controls button:focus {
-  --outline-offset: -4px;
+:where(.c-vid__video.no-captions::cue) {
+  visibility: hidden;
 }
 
-.c-vid-controls-text {
-  margin: 0;
-}
-
-.c-vid-controls-text {
-  width: 100%;
-  font-variant-numeric: tabular-nums;
-}
-
-.video-wrapper {
+:where(.c-vid__wrapper) {
   display: grid;
   grid-template-areas: "stack";
   place-items: center;
 }
 
-.video-wrapper > * {
+:where(.c-vid__wrapper > *) {
   grid-area: stack;
 }
 
-.icon-container {
+:where(.c-vid__icon-container) {
   display: grid;
   grid-auto-flow: column;
   place-items: center;
@@ -86,7 +64,7 @@
   height: 100%;
 }
 
-.video-icon {
+:where(.c-vid__icon) {
   display: grid;
   place-items: center;
   visibility: hidden;
@@ -98,10 +76,15 @@
   pointer-events: none;
 }
 
-.video-icon.active {
+:where(.c-vid__icon.active) {
   visibility: visible;
   animation-name: iconPulse;
   animation-duration: 700ms;
+}
+
+:where(.c-vid__icon svg) {
+  width: 60%;
+  height: 60%;
 }
 
 @keyframes iconPulse {
@@ -117,9 +100,59 @@
   }
 }
 
-.video-icon svg {
-  width: 60%;
-  height: 60%;
+:where(.c-vid__controls) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.1rem 0.2rem;
+  height: 100%;
+  background-color: var(--clr-complementary-900);
+  color: var(--clr-neutral-100);
+}
+
+:where(.c-vid__controls *) {
+  color: inherit;
+}
+
+:where(.c-vid__button) {
+  --outline-offset: -4px;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  width: auto;
+  font-size: 1.5rem;
+  border: 0.125rem solid transparent;
+  background-color: transparent;
+  border-radius: 3.2px;
+  cursor: pointer;
+  border-radius: 0.5em;
+  aspect-ratio: 1;
+}
+
+:where(.c-vid__subtitles[aria-pressed="true"]) {
+  color: var(--clr-complementary-900);
+  background-color: var(--clr-neutral-100);
+  border: 2px solid transparent;
+}
+
+:where(.c-vid__subtitles[disabled]) {
+  color: var(--clr-complementary-300);
+  cursor: not-allowed;
+}
+
+:where(.c-vid__subtitles[aria-pressed="true"]:hover) {
+  background-color: rgb(255 255 255 / 30%);
+  color: var(--clr-neutral-100);
+}
+
+.c-vid-controls-text {
+  margin: 0;
+}
+
+.c-vid-controls-text {
+  width: 100%;
+  font-variant-numeric: tabular-nums;
 }
 
 .progress {
@@ -150,7 +183,6 @@
 .progress-sphere {
   position: absolute;
   top: 50%;
-  // left: calc((${getCurrentTime.seconds} / ${getDurationVideo.seconds}) * 100 * 1%);
   transform: translateY(-50%);
   border-radius: 50%;
   aspect-ratio: 1;
@@ -185,36 +217,4 @@
   display: block;
   width: 5rem;
   accent-color: var(--clr-primary-300);
-}
-
-.c-vid video::cue {
-  visibility: visible;
-  color: white;
-  background-color: #2f4f4f;
-  font-family: "Source Sans Pro", sans-serif;
-}
-
-.c-vid video::cue(i) {
-  font-style: italic;
-  color: rgb(249, 205, 160);
-}
-
-.c-vid video.no-captions::cue {
-  visibility: hidden;
-}
-
-.subtitles[aria-pressed="true"] {
-  color: var(--clr-complementary-900);
-  background-color: whitesmoke;
-  border: 2px solid transparent;
-}
-
-.subtitles[disabled] {
-  color: var(--clr-complementary-300);
-  cursor: not-allowed;
-}
-
-.subtitles[aria-pressed="true"]:hover {
-  background-color: rgb(255 255 255 / 30%);
-  color: whitesmoke;
 }
