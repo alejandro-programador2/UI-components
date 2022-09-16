@@ -515,7 +515,9 @@ Video.propTypes = {
 };
 
 Video.defaultProps = {
-   url: "",
    src: "",
    addClass: "",
+   width: "1000",
+   hasDescription: false,
+   poster: "",
 };
