@@ -3,17 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import css from "./Video.module.scss";
 import { Icon } from "components/Icon";
 
-/**
- * Usuario: bb-frontend-7
- * Descripción: Crea un reproductor de video
- * param { url, width, addClass }
- * - url: ruta del video que será reproducido.
- * - width: ancho máximo del video.
- * - title: título del caption del video.
- * - content: descripción del caption del video.
- * - addClass: clase adicional que se le agregue al reproductor.
- **/
-export const Video = ({ url, width = "1000", hasDescription, description, addClass, src, poster, ...props }) => {
+export const Video = ({ src, width = "1000", hasDescription, description, addClass, poster, ...props }) => {
    // Estado duracion del video
    const [getDurationVideo, setDurationVideo] = useState({
       totalSeconds: 0,
@@ -51,9 +41,12 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
       label: "Ver en pantalla completa",
    });
 
+   const [captionsDisabled, setCaptionsDisabled] = useState(false);
+
    const [getValueVolume, setValueVolume] = useState(100);
    const refCont = useRef(null);
    const refVideo = useRef(null);
+   const refCaptions = useRef(null);
    const refProgress = useRef(null);
    const refVolume = useRef(null);
    const refPlayPulse = useRef(null);
@@ -76,16 +69,15 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
     * Cambia el video entre reproduciendo y pausado
     */
    function handlePlay() {
-      const $video = refVideo.current;
-      // $video.
+      const video = refVideo.current;
       if (getstateVideoPlay.state) {
-         $video.pause();
+         video.pause();
          setStateVideoPlay({
             state: false,
             label: "Reproducir video",
          });
       } else {
-         $video.play();
+         video.play();
          setStateVideoPlay({
             state: true,
             label: "Pausar video",
@@ -93,6 +85,14 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
       }
       pulseAnimation(refPlayPulse.current);
    }
+
+   // function handleClickOnVideo() {
+   //    if (!document.fullscreen) {
+   //       handlePlay();
+   //    } else {
+   //       return null;
+   //    }
+   // }
 
    /**
     * Cambia el video entre modo de pantalla completa o normal
@@ -353,6 +353,28 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
       localStorage.setItem("ui-video", JSON.stringify({ caption: captions, volume: getValueVolume }));
    }, [captions, getValueVolume]);
 
+   useEffect(() => {
+      if (refCaptions.current) {
+         refCaptions.current.addEventListener("error", () => {
+            setCaptionsDisabled(true);
+         });
+      } else {
+         setCaptionsDisabled(true);
+      }
+
+      if (src.caption) {
+         setCaptionsDisabled(false);
+      }
+
+      return () => {
+         if (refCaptions.current) {
+            refCaptions.current.removeEventListener("error", () => {
+               setCaptionsDisabled(true);
+            });
+         }
+      };
+   }, [src.caption]);
+
    return (
       <figure className={`${css["c-vid"]} ${addClass}`} style={{ maxWidth: `${width}px` }} onKeyDown={(e) => handleArrowKeys(e)} {...props}>
          <div className={`${css["c-vid__container"]} ${addClass}`} ref={refCont}>
@@ -363,10 +385,14 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
                   onLoadedData={(event) => initialValues(event.target)}
                   onClick={handlePlay}
                   className={`${css["c-vid__video"]} ${captions ? "" : css["no-captions"]}`}
-                  poster={`assets/images/${poster}.png`}
+                  poster={poster ? `assets/images/${poster}.png` : undefined}
                >
-                  <source src={url} />
-                  <track src={src} label="Subtítulos en español" kind="subtitles" srcLang="es" default />
+                  <source src={src.video} />
+                  {src.caption ? (
+                     <track ref={refCaptions} src={src.caption} label="Subtítulos en español" kind="subtitles" srcLang="es" default />
+                  ) : (
+                     ""
+                  )}
                </video>
                <div className={css["c-vid__icon-container"]}>
                   <div ref={refRewindPulse} className={css["c-vid__icon"]}>
@@ -391,12 +417,12 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
                   aria-valuetext={getTextValueString()}
                   tabIndex="0"
                   onKeyDown={handleProgressBar}
-                  className={css.progress}
+                  className={css["c-vid__progress-bg"]}
                   onClick={handleProcessControl}
                   ref={refProgress}
                >
                   <div
-                     className={css["progress-bar"]}
+                     className={css["c-vid__progress-bar"]}
                      style={{
                         transform: `scaleX(calc(${getCurrentTime.totalSeconds} / ${getDurationVideo.totalSeconds}))`,
                      }}
@@ -420,44 +446,43 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
                   <Icon name={getstateVideoPlay.state ? "pause" : "play"} />
                </button>
 
-               <div className={css.flex}>
-                  <button
-                     className={`${css["c-vid__button"]} tour`}
-                     aria-label={getStateMuted.label}
-                     data-description="Este botón controla el volumen"
-                     onClick={handleMuted}
-                  >
-                     <Icon name={getStateMuted.state ? "volume_on" : "volume_off"} />
-                  </button>
-                  <label className={css["c-vid-controls-volume"]} htmlFor="volumeControl">
-                     <span className="u-sr-only">Controlar volumen</span>
-                     <input
-                        className={css["c-vid-controls-volume-item"]}
-                        ref={refVolume}
-                        id="volumeControl"
-                        type="range"
-                        min="0"
-                        max="100"
-                        step="5"
-                        value={getValueVolume}
-                        onChange={handleVolume}
-                        aria-valuetext={`${getValueVolume}%`}
-                     />
-                  </label>
-               </div>
+               <button
+                  className={`${css["c-vid__button"]} tour`}
+                  aria-label={getStateMuted.label}
+                  data-description="Este botón controla el volumen"
+                  onClick={handleMuted}
+               >
+                  <Icon name={getStateMuted.state ? "volume_on" : "volume_off"} />
+               </button>
 
-               <p className={css["c-vid-controls-text"]} aria-hidden="true">
+               <label className={css["c-vid__volume"]} htmlFor="volumeControl">
+                  <span className="u-sr-only">Controlar volumen</span>
+                  <input
+                     className={css["c-vid__volume-item"]}
+                     ref={refVolume}
+                     id="volumeControl"
+                     type="range"
+                     min="0"
+                     max="100"
+                     step="5"
+                     value={getValueVolume}
+                     onChange={handleVolume}
+                     aria-valuetext={`${getValueVolume}%`}
+                  />
+               </label>
+
+               <p className={css["c-vid__time"]} aria-hidden="true">
                   <span>{getCurrentTime.string}</span>/<span>{getDurationVideo.string}</span>
                </p>
 
                <button
-                  disabled={src === ""}
-                  aria-pressed={src === "" ? undefined : captions}
+                  disabled={captionsDisabled}
+                  aria-pressed={captionsDisabled ? undefined : captions}
                   onClick={() => setCaptions(!captions)}
                   aria-label="Subtítulos"
                   className={`${css["c-vid__button"]} ${css["c-vid__subtitles"]}`}
                >
-                  <Icon name={src === "" ? "closed_caption_disabled" : "closed_caption"} />
+                  <Icon name={captionsDisabled ? "closed_caption_disabled" : "closed_caption"} />
                </button>
 
                <button className={css["c-vid__button"]} aria-label={getStateScreen.label} onClick={hanldeFullScrenn}>
@@ -475,7 +500,10 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
 };
 
 Video.propTypes = {
-   url: PropTypes.string.isRequired,
+   src: PropTypes.shape({
+      video: PropTypes.string.isRequired,
+      caption: PropTypes.string,
+   }),
    width: PropTypes.string,
    addClass: PropTypes.string,
    hasDescription: PropTypes.bool,
@@ -483,7 +511,6 @@ Video.propTypes = {
       title: PropTypes.string,
       content: PropTypes.string,
    }),
-   src: PropTypes.string,
    poster: PropTypes.string,
 };
 

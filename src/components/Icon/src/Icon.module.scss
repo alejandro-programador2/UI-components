@@ -3,6 +3,7 @@
   width: var(--icon-size);
   height: var(--icon-size);
   fill: currentColor;
+  forced-color-adjust: auto;
 }
 
 :where(.c-icon.c-small) {
