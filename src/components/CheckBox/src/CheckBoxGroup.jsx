@@ -42,7 +42,7 @@ export const CheckBoxGroup = ({ legend, children: childrenProps, onChecked, addC
    });
 
    return (
-      <fieldset className={`${addClass ?? ""}`}>
+      <fieldset {...(addClass && { className: `${addClass}` })}>
          <legend>{legend}</legend>
          <div className="u-flow">{getChildrenByType(children, ["CheckBox"])}</div>
       </fieldset>

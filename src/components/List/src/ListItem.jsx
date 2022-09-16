@@ -16,7 +16,7 @@ export const ListItem = ({ children: childrenProps, addClass, __TYPE, ...props }
    });
 
    return (
-      <li className={`${addClass ?? ""}`} data-type={__TYPE} {...props}>
+      <li {...(addClass && { className: `${addClass}` })} data-type={__TYPE} {...props}>
          {children}
       </li>
    );
