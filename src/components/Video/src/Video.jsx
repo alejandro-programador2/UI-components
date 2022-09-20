@@ -1,20 +1,9 @@
-import { useRef, useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useRef, useState, useEffect } from "react";
+import css from "./Video.module.scss";
 import { Icon } from "components/Icon";
 
-import css from "./Video.module.scss";
-
-/**
- * Usuario: bb-frontend-7
- * Descripción: Crea un reproductor de video
- * param { url, width, addClass }
- * - url: ruta del video que será reproducido.
- * - width: ancho máximo del video.
- * - title: título del caption del video.
- * - content: descripción del caption del video.
- * - addClass: clase adicional que se le agregue al reproductor.
- **/
-export const Video = ({ url, width = "1000", hasDescription, description, addClass, src, poster, ...props }) => {
+export const Video = ({ src, width = "1000", hasDescription, description, addClass, poster, ...props }) => {
    // Estado duracion del video
    const [getDurationVideo, setDurationVideo] = useState({
       totalSeconds: 0,
@@ -52,9 +41,12 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
       label: "Ver en pantalla completa",
    });
 
+   const [captionsDisabled, setCaptionsDisabled] = useState(false);
+
    const [getValueVolume, setValueVolume] = useState(100);
    const refCont = useRef(null);
    const refVideo = useRef(null);
+   const refCaptions = useRef(null);
    const refProgress = useRef(null);
    const refVolume = useRef(null);
    const refPlayPulse = useRef(null);
@@ -77,16 +69,15 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
     * Cambia el video entre reproduciendo y pausado
     */
    function handlePlay() {
-      const $video = refVideo.current;
-      // $video.
+      const video = refVideo.current;
       if (getstateVideoPlay.state) {
-         $video.pause();
+         video.pause();
          setStateVideoPlay({
             state: false,
             label: "Reproducir video",
          });
       } else {
-         $video.play();
+         video.play();
          setStateVideoPlay({
             state: true,
             label: "Pausar video",
@@ -94,6 +85,14 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
       }
       pulseAnimation(refPlayPulse.current);
    }
+
+   // function handleClickOnVideo() {
+   //    if (!document.fullscreen) {
+   //       handlePlay();
+   //    } else {
+   //       return null;
+   //    }
+   // }
 
    /**
     * Cambia el video entre modo de pantalla completa o normal
@@ -354,32 +353,55 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
       localStorage.setItem("ui-video", JSON.stringify({ caption: captions, volume: getValueVolume }));
    }, [captions, getValueVolume]);
 
+   useEffect(() => {
+      if (refCaptions.current) {
+         refCaptions.current.addEventListener("error", () => {
+            setCaptionsDisabled(true);
+         });
+      } else {
+         setCaptionsDisabled(true);
+      }
+
+      if (src.caption) {
+         setCaptionsDisabled(false);
+      }
+
+      return () => {
+         if (refCaptions.current) {
+            refCaptions.current.removeEventListener("error", () => {
+               setCaptionsDisabled(true);
+            });
+         }
+      };
+   }, [src.caption]);
+
    return (
-      <figure className={`${css["c-vid-container"]} ${addClass ?? ""}`} onKeyDown={handleArrowKeys} {...props}>
-         <div ref={refCont} className={`${css["c-vid"]} ${addClass ?? ""}`} style={{ maxWidth: `${width}px` }}>
-            <div className={css["video-wrapper"]}>
+      <figure className={`${css["c-vid"]} ${addClass}`} style={{ maxWidth: `${width}px` }} onKeyDown={(e) => handleArrowKeys(e)} {...props}>
+         <div className={`${css["c-vid__container"]} ${addClass}`} ref={refCont}>
+            <div className={css["c-vid__wrapper"]}>
                <video
                   ref={refVideo}
-                  className={`${captions ? "" : css["no-captions"]}`}
                   onTimeUpdate={(event) => initialValues(event.target)}
                   onLoadedData={(event) => initialValues(event.target)}
                   onClick={handlePlay}
-                  {...(poster && { poster })}
+                  className={`${css["c-vid__video"]} ${captions ? "" : css["no-captions"]}`}
+                  poster={poster ? `assets/images/${poster}.png` : undefined}
                >
-                  <source src={url} />
-                  {src && <track src={src} label="Subtítulos en español" kind="subtitles" srcLang="es" default />}
+                  <source src={src.video} />
+                  {src.caption ? (
+                     <track ref={refCaptions} src={src.caption} label="Subtítulos en español" kind="subtitles" srcLang="es" default />
+                  ) : (
+                     ""
+                  )}
                </video>
-
-               <div className={css["icon-container"]}>
-                  <div ref={refRewindPulse} className={css["video-icon"]}>
+               <div className={css["c-vid__icon-container"]}>
+                  <div ref={refRewindPulse} className={css["c-vid__icon"]}>
                      <Icon name="fast_rewind" />
                   </div>
-
-                  <div ref={refPlayPulse} className={css["video-icon"]}>
+                  <div ref={refPlayPulse} className={css["c-vid__icon"]}>
                      <Icon name={getstateVideoPlay.state ? "play" : "pause"} />
                   </div>
-
-                  <div ref={refForwardPulse} className={css["video-icon"]}>
+                  <div ref={refForwardPulse} className={css["c-vid__icon"]}>
                      <Icon name="fast_forward" />
                   </div>
                </div>
@@ -387,25 +409,24 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
 
             <div className={css["progress-container"]}>
                <div
-                  ref={refProgress}
                   role="slider"
-                  tabIndex={0}
                   aria-label="Progreso del video"
                   aria-valuemin="0"
                   aria-valuenow={getCurrentTime.totalSeconds}
                   aria-valuemax={getDurationVideo.totalSeconds}
                   aria-valuetext={getTextValueString()}
-                  className={css.progress}
+                  tabIndex="0"
                   onKeyDown={handleProgressBar}
+                  className={css["c-vid__progress-bg"]}
                   onClick={handleProcessControl}
+                  ref={refProgress}
                >
                   <div
-                     className={css["progress-bar"]}
+                     className={css["c-vid__progress-bar"]}
                      style={{
                         transform: `scaleX(calc(${getCurrentTime.totalSeconds} / ${getDurationVideo.totalSeconds}))`,
                      }}
                   ></div>
-
                   <div
                      className={css["progress-sphere"]}
                      style={{
@@ -415,53 +436,62 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
                </div>
             </div>
 
-            <div className={css["c-vid-controls"]}>
-               <button aria-label={getstateVideoPlay.label} onClick={handlePlay} className={"tour"} data-description="Este botón reproduce el video">
+            <div className={css["c-vid__controls"]}>
+               <button
+                  className={`${css["c-vid__button"]} tour`}
+                  aria-label={getstateVideoPlay.label}
+                  onClick={handlePlay}
+                  data-description="Este botón reproduce el video"
+               >
                   <Icon name={getstateVideoPlay.state ? "pause" : "play"} />
                </button>
 
-               <div className={css.flex}>
-                  <button aria-label={getStateMuted.label} className={"tour"} data-description="Este botón controla el volumen" onClick={handleMuted}>
-                     <Icon name={getStateMuted.state ? "volume_on" : "volume_off"} />
-                  </button>
-                  <label className={css["c-vid-controls-volume"]} htmlFor="volumeControl">
-                     <span className="u-sr-only">Controlar volumen</span>
-                     <input
-                        className={css["c-vid-controls-volume-item"]}
-                        ref={refVolume}
-                        id="volumeControl"
-                        type="range"
-                        min="0"
-                        max="100"
-                        step="5"
-                        value={getValueVolume}
-                        onChange={handleVolume}
-                        aria-valuetext={`${getValueVolume}%`}
-                     />
-                  </label>
-               </div>
+               <button
+                  className={`${css["c-vid__button"]} tour`}
+                  aria-label={getStateMuted.label}
+                  data-description="Este botón controla el volumen"
+                  onClick={handleMuted}
+               >
+                  <Icon name={getStateMuted.state ? "volume_on" : "volume_off"} />
+               </button>
 
-               <p className={css["c-vid-controls-text"]} aria-hidden="true">
+               <label className={css["c-vid__volume"]} htmlFor="volumeControl">
+                  <span className="u-sr-only">Controlar volumen</span>
+                  <input
+                     className={css["c-vid__volume-item"]}
+                     ref={refVolume}
+                     id="volumeControl"
+                     type="range"
+                     min="0"
+                     max="100"
+                     step="5"
+                     value={getValueVolume}
+                     onChange={handleVolume}
+                     aria-valuetext={`${getValueVolume}%`}
+                  />
+               </label>
+
+               <p className={css["c-vid__time"]} aria-hidden="true">
                   <span>{getCurrentTime.string}</span>/<span>{getDurationVideo.string}</span>
                </p>
 
                <button
-                  disabled={!src}
-                  className={css.subtitles}
+                  disabled={captionsDisabled}
+                  aria-pressed={captionsDisabled ? undefined : captions}
                   onClick={() => setCaptions(!captions)}
                   aria-label="Subtítulos"
-                  {...(!!src && { "aria-pressed": captions })}
+                  className={`${css["c-vid__button"]} ${css["c-vid__subtitles"]}`}
                >
-                  <Icon name={!src ? "closed_caption_disabled" : "closed_caption"} />
+                  <Icon name={captionsDisabled ? "closed_caption_disabled" : "closed_caption"} />
                </button>
 
-               <button aria-label={getStateScreen.label} onClick={hanldeFullScrenn}>
+               <button className={css["c-vid__button"]} aria-label={getStateScreen.label} onClick={hanldeFullScrenn}>
                   <Icon name={getStateScreen.state ? "fullscreen_exit" : "fullscreen"} />
                </button>
             </div>
          </div>
          {hasDescription && (
-            <figcaption>
+            <figcaption className={css["c-vid__caption"]}>
                <strong>{description.title}:</strong> {description.content}
             </figcaption>
          )}
@@ -470,7 +500,10 @@ export const Video = ({ url, width = "1000", hasDescription, description, addCla
 };
 
 Video.propTypes = {
-   url: PropTypes.string.isRequired,
+   src: PropTypes.shape({
+      video: PropTypes.string.isRequired,
+      caption: PropTypes.string,
+   }),
    width: PropTypes.string,
    addClass: PropTypes.string,
    hasDescription: PropTypes.bool,
@@ -478,6 +511,13 @@ Video.propTypes = {
       title: PropTypes.string,
       content: PropTypes.string,
    }),
-   src: PropTypes.string,
    poster: PropTypes.string,
+};
+
+Video.defaultProps = {
+   src: "",
+   addClass: "",
+   width: "1000",
+   hasDescription: false,
+   poster: "",
 };
