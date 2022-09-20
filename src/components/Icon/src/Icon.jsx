@@ -19,6 +19,10 @@ export const iconList = [
    "closed_caption_disabled",
    "fast_forward",
    "fast_rewind",
+   "last_page",
+   "first_page",
+   "navigate_before",
+   "navigate_next",
 ];
 
 export const Icon = ({ name, size, addClass }) => {

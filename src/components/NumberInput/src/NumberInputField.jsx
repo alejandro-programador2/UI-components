@@ -55,6 +55,9 @@ export const NumberInputField = ({ addClass, isLabelVisible, label, pattern, nam
          case KEYCODE.HOME:
             onChangeValue(min);
             break;
+
+         default:
+            return null;
       }
    };
 
