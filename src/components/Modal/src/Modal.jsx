@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import "wicg-inert";
 
 import { Button } from "components/Button";
-import { iconList } from "components/Icon";
 import { Portal } from "components/Portal";
+import { iconList } from "utils/icons/iconsList";
 
 import css from "./Modal.module.scss";
 

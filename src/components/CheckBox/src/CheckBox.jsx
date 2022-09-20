@@ -16,15 +16,16 @@ import css from "./CheckBox.module.scss";
  **/
 
 export const CheckBox = ({ type, label, state, name, onClick, addClass, __TYPE, ...args }) => {
-   const id = useMemo(() => _uniqueId(`ui-${type}`), []);
-
+   // Estado para controlar el valor del input.
    const [value, SetValue] = useState(name);
+
+   // Creamos el id para el input.
+   const id = useMemo(() => _uniqueId(`ui-${type}`), []);
 
    /**
     * Detecta cuando se el input se activa o se desactiva y trae el id y el value
     * @param { target } - Nodo del DOM
     */
-
    const onChange = ({ target }) => {
       if (onClick) {
          onClick({ id: target.id, value: target.value });
@@ -32,22 +33,12 @@ export const CheckBox = ({ type, label, state, name, onClick, addClass, __TYPE, 
       SetValue(target.value);
    };
 
-   /**
-    * Determina el nombre del ícono
-    * @returns String del nombre del ícono
-    */
-
-   const handleIconName = () => {
-      if (state === "right") {
-         return "done_all";
-      } else if (state === "wrong") {
-         return "close";
-      } else if (type === "checkbox" && state === "normal") {
-         return "check";
-      } else {
-         return null;
-      }
-   };
+   // Objecto con la lista de iconos usando dependiendo del state.
+   const ICON_NAME = Object.freeze({
+      right: "done_all",
+      wrong: "close",
+      normal: type === "checkbox" ? "check" : null,
+   });
 
    return (
       <label
@@ -59,10 +50,8 @@ export const CheckBox = ({ type, label, state, name, onClick, addClass, __TYPE, 
          {...args}
       >
          <div className={css["c-input__box"]}>
-            <input onChange={onChange} className={css["c-input__check"]} data-state={state} type={type} id={id} name={name} value={value} />
-            <div className={css["c-input__icon"]}>
-               <Icon name={handleIconName()} />
-            </div>
+            <input id={id} type={type} name={name} value={value} data-state={state} className={css["c-input__check"]} onChange={onChange} />
+            <div className={css["c-input__icon"]}>{ICON_NAME[state] && <Icon name={ICON_NAME[state]} />}</div>
          </div>
          <span className={css["c-input__label"]}>{label}</span>
       </label>

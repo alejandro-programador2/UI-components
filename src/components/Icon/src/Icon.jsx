@@ -1,39 +1,22 @@
 import PropTypes from "prop-types";
 
 import { typeValidation } from "utils/validations/typeValidation";
+import { iconList } from "utils/icons/iconsList";
+
 import css from "./Icon.module.scss";
 
-export const iconList = [
-   "close",
-   "check",
-   "play",
-   "pause",
-   "volume_on",
-   "volume_off",
-   "done_all",
-   "fullscreen",
-   "fullscreen_exit",
-   "arrow_drop_down",
-   "arrow_drop_up",
-   "closed_caption",
-   "closed_caption_disabled",
-   "fast_forward",
-   "fast_rewind",
-   "last_page",
-   "first_page",
-   "navigate_before",
-   "navigate_next",
-];
-
 export const Icon = ({ name, size, addClass }) => {
+   // Si el name es false retornar nada
    if (!name) {
       return null;
    }
 
+   // Si no existe el icono en el iconsList devolver una alerta
    if (!iconList.includes(name)) {
       return <span>Doesn&apos;t exist</span>;
    }
 
+   // Obtiene la url del icono
    const svgURL = require(`../../../assets/icons/svg/${name}.svg`);
 
    return (

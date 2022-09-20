@@ -3,7 +3,7 @@ import { getChildrenByType } from "utils/validations/getChildrenType";
 
 export const List = ({ children, addClass, ...props }) => {
    return (
-      <ul role="list" className={`${addClass ?? ""} u-list-none`} {...props}>
+      <ul role="list" {...(addClass && { className: `${addClass}` })} {...props}>
          {getChildrenByType(children, ["ListItem"])}
       </ul>
    );
