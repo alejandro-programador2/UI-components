@@ -1,10 +1,22 @@
 import React from "react";
 
+import { Col } from "components/Col";
+import { Row } from "components/Row";
+
 import { CheckBoxGroup, CheckBox } from "components/CheckBox";
 
 export default {
    title: "ui-components/CheckBoxGroup",
    component: CheckBoxGroup,
+   decorators: [
+      (story) => (
+         <Row display="flex" justify-content="center" align-items="center">
+            <Col xs="11" mm="10" md="9" lg="5" hd="4">
+               {story()}
+            </Col>
+         </Row>
+      ),
+   ],
 };
 
 export const Default = () => (

@@ -2,6 +2,9 @@ import React from "react";
 import { userEvent, within } from "@storybook/testing-library";
 import { expect } from "@storybook/jest";
 
+import { Col } from "components/Col";
+import { Row } from "components/Row";
+
 import { Button } from "components/Button";
 
 export default {
@@ -25,6 +28,17 @@ export default {
          control: { type: "boolean" },
       },
    },
+   decorators: [
+      (story) => (
+         <Row display="flex" justify-content="center" align-items="center">
+            <Col xs="11" mm="10" md="9" lg="5" hd="4">
+               <Row display="flex" justify-content="center" align-items="center">
+                  {story()}
+               </Row>
+            </Col>
+         </Row>
+      ),
+   ],
 };
 
 const Template = (args) => <Button {...args} />;

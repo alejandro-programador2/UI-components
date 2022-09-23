@@ -1,10 +1,24 @@
 import React from "react";
 
+import { Col } from "components/Col";
+import { Row } from "components/Row";
+
 import { CheckBox } from "components/CheckBox";
 
 export default {
    title: "ui-components/CheckBox",
    component: CheckBox,
+   decorators: [
+      (story) => (
+         <Row display="flex" justify-content="center" align-items="center">
+            <Col xs="11" mm="10" md="9" lg="5" hd="4">
+               <Row display="flex" justify-content="center" align-items="center">
+                  {story()}
+               </Row>
+            </Col>
+         </Row>
+      ),
+   ]
 };
 
 const Template = (args) => <CheckBox {...args} />;

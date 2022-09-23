@@ -1,5 +1,8 @@
 import React from "react";
 
+import { Col } from "components/Col";
+import { Row } from "components/Row";
+
 import { Tooltip } from "components/Tooltip";
 import { Button } from "components/Button";
 
@@ -8,20 +11,13 @@ export default {
    component: Tooltip,
    decorators: [
       (story) => (
-         <div style={{ display: "flex", justifyContent: "center" }}>
-            <div
-               className="u-flex u-my-5"
-               style={{
-                  minWidth: "30vw",
-                  maxWidth: "55vw",
-                  flexWrap: "wrap",
-                  alignItems: "center",
-                  justifyContent: "center",
-               }}
-            >
-               {story()}
-            </div>
-         </div>
+         <Row display="flex" justify-content="center" align-items="center">
+            <Col xs="11" mm="10" md="9" lg="6" hd="5">
+               <Row display="flex" justify-content="center" align-items="center" addClass="u-my-5" style={{ gap: "1rem" }}>
+                  {story()}
+               </Row>
+            </Col>
+         </Row>
       ),
    ],
 };
