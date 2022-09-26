@@ -6,17 +6,24 @@ import { iconList } from "utils/icons/iconsList";
 import css from "./Icon.module.scss";
 
 export const Icon = ({ name, size, addClass }) => {
-   // Si el name es false retornar nada
+   /**
+    * Evaluamos la propiedad name para no retonar nada si está no existe.
+    */
    if (!name) {
       return null;
    }
 
-   // Si no existe el icono en el iconsList devolver una alerta
+   /**
+    * Si el nombre del icono no está en el array iconList, entonces
+    * se muestra un mensaje informativo.
+    */
    if (!iconList.includes(name)) {
       return <span>Doesn&apos;t exist</span>;
    }
 
-   // Obtiene la url del icono
+   /**
+    * Se crea la URL del icono apartir del nombre de este.
+    */
    const svgURL = require(`../../../assets/icons/svg/${name}.svg`);
 
    return (

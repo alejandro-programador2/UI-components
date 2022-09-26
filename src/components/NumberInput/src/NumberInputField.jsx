@@ -8,13 +8,21 @@ import { typeValidation } from "utils/validations/typeValidation";
 import css from "./NumberInput.module.scss";
 
 export const NumberInputField = ({ addClass, isLabelVisible, label, pattern, name }) => {
-   // Obtenemos las diferentes propiedades del contexto.
+   /**
+    * Se obtienen las propiedades counter, onChangeValue, onIncrementValue, onDecrementValue,
+    * min y max del contexto generado por el componente NumberInput.
+    */
    const { counter, onChangeValue, onIncrementValue, onDecrementValue, min, max } = useContext(NumberInputContext);
 
-   // Creamos el id para el input
+   /**
+    * Se crea un ID para identificar el input.
+    */
    const input = useMemo(() => _uniquedId("c-number-input-"), []);
 
-   // Objeto que contiene el keyCode de las teclas up, down, end y home.
+   /**
+    * Se crea un objeto que no se puede cambiar para
+    * almacenar el keyCode de las teclas up, down, end y home.
+    */
    const KEYCODE = Object.freeze({
       UP: 38,
       DOWN: 40,
@@ -24,6 +32,8 @@ export const NumberInputField = ({ addClass, isLabelVisible, label, pattern, nam
 
    /**
     * Función que se ejecuta al cambio del input.
+    * además envia el valor actual del input al método
+    * onChangeValue.
     *
     * @param {HTMLInputElement} Elemento input
     */
@@ -35,7 +45,10 @@ export const NumberInputField = ({ addClass, isLabelVisible, label, pattern, nam
    };
 
    /**
-    * Función que se ejecuta con el evento onKeyDown
+    * Función que se ejecuta con el evento onKeyDown,
+    * utilizada para controlar el NumberInput con las teclas
+    * cumpliendo con la accesibilidad del componente.
+    *
     * @param {Event} e Evento
     */
    const onKeyDown = (e) => {

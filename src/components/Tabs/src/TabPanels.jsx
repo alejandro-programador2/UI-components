@@ -7,9 +7,10 @@ import { getChildrenByType } from "utils/validations/getChildrenType";
 import css from "./Tabs.module.scss";
 
 export const TabPanels = ({ children: childrenProp, addClass, __TYPE, ...props }) => {
+   // Necesitamos agregar la prop index en los hijos.
    const children = Children.map(childrenProp, (child, index) => {
       if (!isValidElement(child)) return null;
-      // Agregamos las props necesarias en el TabPanel.
+
       return cloneElement(child, { ...child.props, id: index });
    });
 

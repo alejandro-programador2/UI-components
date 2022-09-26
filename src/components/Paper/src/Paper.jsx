@@ -4,6 +4,11 @@ import PropTypes from "prop-types";
 import css from "./Paper.module.scss";
 
 export const Paper = ({ children, color, addClass, ...props }) => {
+   /**
+    * Se necesita obtener la referencia del elemento padre
+    * para actualizar la variable '--clr-line' que nos
+    * permite cambiar el color de las lineas.
+    */
    const container = useRef(null);
 
    useLayoutEffect(() => {

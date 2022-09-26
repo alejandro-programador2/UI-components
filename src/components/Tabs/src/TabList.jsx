@@ -7,17 +7,29 @@ import { getChildrenByType } from "utils/validations/getChildrenType";
 import css from "./Tabs.module.scss";
 
 export const TabList = ({ children: ChildrenProps, addClass, label, orientation, __TYPE, ...props }) => {
-   // Almacena las referencias de todos los botones usados como Tab.
+   /**
+    * Usado para almacenar las referencias
+    * de todos los botones usados como Tab.
+    */
    const refTabs = useRef([]);
 
    /**
-    * Función para agregar una nueva referencia
-    * al arreglo de referencias refTabs
+    * Función para utilizada para agregar una nueva referencia
+    * al arreglo de referencias refTabs.
     *
     * @param {ReactNode[]} ref - Referencia del botón usado en el Tab.
     * @returns {ReactNode[]} refTabs - Arreglo de referencias.
     */
    const addNewRef = (ref) => (refTabs.current = [...refTabs.current, ref]);
+
+   /**
+    * Se crea un objeto que no se puede cambiar para
+    * almacenar el keyCode de las teclas up, down, end y home.
+    */
+   const KEYCODE = Object.freeze({
+      LEFT: 37,
+      RIGHT: 39,
+   });
 
    /**
     * Función utilizada en el evento KeyDown del botón,
@@ -33,7 +45,7 @@ export const TabList = ({ children: ChildrenProps, addClass, label, orientation,
       const LAST_TAB = refTabs.current[refTabs.current.length - 1];
 
       // Si la tecla pulsada ArrowLeft
-      if ((e.keyCode || e.which) === 37) {
+      if ((e.keyCode || e.which) === KEYCODE.LEFT) {
          if (e.target === FIRST_TAB) {
             LAST_TAB.focus();
          } else {
@@ -41,7 +53,7 @@ export const TabList = ({ children: ChildrenProps, addClass, label, orientation,
             // Agregamos el focus al botón anterior
             refTabs.current[prevFocusButton].focus();
          }
-      } else if ((e.keyCode || e.which) === 39) {
+      } else if ((e.keyCode || e.which) === KEYCODE.RIGHT) {
          // Si la tecla pulsada es ArrowRight
          if (e.target === LAST_TAB) {
             FIRST_TAB.focus();
@@ -55,7 +67,6 @@ export const TabList = ({ children: ChildrenProps, addClass, label, orientation,
 
    const children = Children.map(ChildrenProps, (child, index) => {
       if (!isValidElement(child)) return null;
-      // Agregamos las props necesarias en el Tab.
       return cloneElement(child, { ...child.props, id: index, addNewRef, onNavigation });
    });
 

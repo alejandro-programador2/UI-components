@@ -8,7 +8,11 @@ import { typeValidation } from "utils/validations/typeValidation";
 import css from "./NumberInput.module.scss";
 
 export const NumberIncrementStepper = ({ children, addClass, label }) => {
-   // Obtenemos diferentes propiedades del contexto
+   
+   /**
+    * Se obtienen las propiedades onDecrementValue, validate y min 
+    * del contexto generado por el componente NumberInput.
+    */
    const { onIncrementValue, validate, max } = useContext(NumberInputContext);
 
    return (

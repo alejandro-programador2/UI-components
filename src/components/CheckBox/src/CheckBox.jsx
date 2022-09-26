@@ -4,27 +4,26 @@ import _uniqueId from "lodash/uniqueId";
 
 import { Icon } from "components/Icon";
 import { typeValidation } from "utils/validations/typeValidation";
+
 import css from "./CheckBox.module.scss";
 
-/**
- * Usuario: bb-frontend-7
- * Descripción: Crea un input tipo checkbox, toggle o radio
- * param { type, label, stateInput, name, addClass }
- * - type: El tipo del input que se creará. Los valores son "radio", "checkbox" o "toggle"
- * - label: etiqueta que describirá el elemento.
- * - addClass: clase adicional que se necesite agregar al input
- **/
-
 export const CheckBox = ({ type, label, state, name, onClick, addClass, __TYPE, ...args }) => {
-   // Estado para controlar el valor del input.
+   // Utilizado para controlar el valor del input.
    const [value, SetValue] = useState(name);
 
-   // Creamos el id para el input.
+   /**
+    * Se crea un ID para identificar el input y además
+    * para pasarlo dentro la función onClick proveniente
+    * de los props.
+    */
    const id = useMemo(() => _uniqueId(`ui-${type}`), []);
 
    /**
-    * Detecta cuando se el input se activa o se desactiva y trae el id y el value
-    * @param { target } - Nodo del DOM
+    * Detecta cuando el input tiene un cambio así actualizamos
+    * el estado y si existe la propiedad onClick le pasamos
+    * los parámetros id y value del input.
+    *
+    * @param { target } - Nodo del DOM.
     */
    const onChange = ({ target }) => {
       if (onClick) {
@@ -33,8 +32,8 @@ export const CheckBox = ({ type, label, state, name, onClick, addClass, __TYPE, 
       SetValue(target.value);
    };
 
-   // Objecto con la lista de iconos usando dependiendo del state.
-   const ICON_NAME = Object.freeze({
+   // Objeto con la lista de iconos que dependen del la propiedad state.
+   const ICON_STATE = Object.freeze({
       right: "done_all",
       wrong: "close",
       normal: type === "checkbox" ? "check" : null,
@@ -51,7 +50,7 @@ export const CheckBox = ({ type, label, state, name, onClick, addClass, __TYPE, 
       >
          <div className={css["c-input__box"]}>
             <input id={id} type={type} name={name} value={value} data-state={state} className={css["c-input__check"]} onChange={onChange} />
-            <div className={css["c-input__icon"]}>{ICON_NAME[state] && <Icon name={ICON_NAME[state]} />}</div>
+            <div className={css["c-input__icon"]}>{ICON_STATE[state] && <Icon name={ICON_STATE[state]} />}</div>
          </div>
          <span className={css["c-input__label"]}>{label}</span>
       </label>

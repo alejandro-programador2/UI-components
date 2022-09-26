@@ -5,11 +5,21 @@ import css from "./Image.module.scss";
 import base from "assets/images/base-image.png";
 
 export const Image = ({ url, alt, title, width, addClass, noCaption, ...props }) => {
+   // Estado para determinar si se muestra la imagen por defecto.
    const [error, setError] = useState(false);
-   // funcion de error, al no conseguir la imagen cambia el estado
+
+   /**
+    * Función de error, al no conseguir la imagen cambia el estado setError
+    * y muestra la imagen por defecto.
+    *
+    * @param {boolean} value
+    */
    const onError = (value) => setError(value);
 
-   // if ternario donde al no conseguir la imagen enviada muestra una por default
+   /**
+    * Condicionamos que imagen se va a mostrar
+    * dependiendo del valor del estado error.
+    */
    const imgToSee = !error ? `${url}` : base;
 
    return (

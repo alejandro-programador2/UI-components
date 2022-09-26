@@ -8,12 +8,12 @@ import css from "./NumberInput.module.scss";
 export const NumberInputContext = createContext();
 
 export const NumberInput = ({ children, addClass, keepWithinRange, defaultValue, min, max, step, onValue }) => {
-   // Estado que controla el valor del input.
+   // Utilizado para controlar el valor del input.
    const [counter, setCounter] = useState(defaultValue || 0);
 
    /**
-    * Función que aumenta el contador del input
-    * dependiendo del valor del step.
+    * Función que usa para incrementar el valor del input.
+    * el valor a incrementar depende del valor del step.
     */
    const onIncrementValue = () => {
       if (keepWithinRange && counter > max) {
@@ -23,8 +23,8 @@ export const NumberInput = ({ children, addClass, keepWithinRange, defaultValue,
    };
 
    /**
-    * Función que disminuye el contador del input
-    * dependiendo del valor del step.
+    * Función que usa para disminuir el valor del input
+    * el valor a incrementar depende del valor del step.
     */
    const onDecrementValue = () => {
       if (keepWithinRange && counter < min) {
@@ -34,14 +34,17 @@ export const NumberInput = ({ children, addClass, keepWithinRange, defaultValue,
    };
 
    /**
-    * Función que actualiza el contador
+    * Función callback que se utiliza para cambiar el valor
+    * del input apartir del valor pasado por medio de esta.
+    * 
     * @param {number} value - valor del contador
     */
    const onChangeValue = (value) => setCounter(value);
 
    /**
-    * Función que compara el valor del contador y
-    * retorna un valor booleano.
+    * 
+    * Función que se utiliza para comprobar si el valor de las 
+    * propiedades min o max es igual al valor del contador.
     *
     * @param {number} prop
     * @returns {boolean} - Retorna un valor booleano
