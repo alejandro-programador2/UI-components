@@ -5,11 +5,12 @@ import { typeValidation } from "utils/validations/typeValidation";
 import css from "./List.module.scss";
 
 export const ListItem = ({ children: childrenProps, addClass, __TYPE, ...props }) => {
-   // Recorremos los children para controlarlos
+   /**
+    * Se recorren los hijos del componente para agregarle la clase
+    * 'c-list-item__icon' si el hijo es de tipo Icon.
+    */
    const children = Children.map(childrenProps, (child) => {
-      // Comprueba si el child es de tipo Icon
       if (child?.props?.__TYPE === "Icon") {
-         // Agrega un clase personalizada para el icono
          return cloneElement(child, { ...child.props, addClass: css["c-list-item__icon"] });
       }
       return child;

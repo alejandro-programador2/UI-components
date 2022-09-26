@@ -2,13 +2,17 @@ import { useState, Children, cloneElement, isValidElement, useEffect } from "rea
 import PropTypes from "prop-types";
 
 export const InputGroup = ({ children: childrenProps, onAllValue }) => {
-   // Estado para controlar el valor de los Input.
+   /**
+    * Estado usado para almacenar los objetos
+    * provenientes de los inputs que han sido modificados.
+    */
    const [allValue, setAllValue] = useState([]);
 
    /**
-    * Función encargada de actualzar el estado con los valores
-    * provenientes del Input component.
-    * @param {object} choise
+    * Función callback que se pasa como parámetro del componente Input
+    * y retorna un objeto con los valores ID y value.
+    * 
+    * @param {Object} choise - Objeto { Id, value }
     */
    const onAddValue = (choise) => setAllValue([...allValue.filter((option) => option.id !== choise.id), { ...choise }]);
 
@@ -18,10 +22,10 @@ export const InputGroup = ({ children: childrenProps, onAllValue }) => {
    }, [allValue]);
 
    /**
-    *
-    * Función que permite modificar las propiedades de los hijos de un componente.
-    *
-    * @param {ReactNode[]} childs - Arreglo de children's.
+    * Función que se realizo para agregar las propiedades onValue 
+    * al componente Input que se pasa junto al InputStyle.
+    * 
+    * @param {ReactNode[]} childs - Arreglo de childrens.
     * @param {string} type - Tipo de child a modificar.
     * @param {object} properties - Objeto de propiedades para agregar a los children.
     * @returns {ReactNode[]} Arreglo de children modificados.
@@ -35,16 +39,16 @@ export const InputGroup = ({ children: childrenProps, onAllValue }) => {
       });
    };
 
+   /**
+    * Agregamos la propiedad onValue al componente Input.
+    */
    const children = Children.map(childrenProps, (child) => {
       if (!isValidElement(child)) return null;
 
-      // Comprueba si el child es de tipo InputStyle
       if (child?.props?.__TYPE === "InputStyle") {
-         // Agregamos las props necesarias en el Input.
          return cloneElement(child, { ...child.props, children: setChildProperties(child.props.children, "Input", { onValue: onAddValue }) });
       }
 
-      // Comprueba si el child es de tipo Input
       if (child?.props?.__TYPE === "Input") {
          return cloneElement(child, { ...child.props, onValue: onAddValue });
       }

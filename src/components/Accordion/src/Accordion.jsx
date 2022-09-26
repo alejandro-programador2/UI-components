@@ -8,9 +8,11 @@ export const Accordion = ({ children: childrenProp, allowMultiple, defaultIndex 
    const [isOpen, setIsOpen] = useState();
 
    /**
-    * Función para abrir o cerrar el AccordionItem.
+    * Se crea la función onToggle para agregar los ID de
+    * los AccordionItem abiertos, además es necesaria para
+    * alternar el tipo de dato que tiene el estado setIsOpen .
     *
-    * @param {Number} value - Id correspondiente del AccordionItem.
+    * @param {Number} value - Id proveniente del AccordionItem.
     */
    const onToggle = (value) => {
       if (allowMultiple) {
@@ -25,7 +27,7 @@ export const Accordion = ({ children: childrenProp, allowMultiple, defaultIndex 
    };
 
    useEffect(() => {
-      // Cambia el estado inicial a un Array o Number dependiendo de la prop allowMultiple.
+      // set utiliza para cambiar el estado inicial a un Array o Number dependiendo de la prop allowMultiple.
       setIsOpen(allowMultiple ? defaultIndex || [] : defaultIndex ?? null);
 
       return () => {
@@ -33,9 +35,13 @@ export const Accordion = ({ children: childrenProp, allowMultiple, defaultIndex 
       };
    }, [allowMultiple, defaultIndex]);
 
+   /**
+    * Necesitamos agregar las propiedades id, isOpen y onToggle a cada
+    * uno de los componentes AccordionItem.
+    */
    const children = Children.map(childrenProp, (child, index) => {
       if (!isValidElement(child)) return null;
-      // Agregamos las props necesarias en el AccordionItem.
+
       return cloneElement(child, { ...child.props, id: index, isOpen, onToggle });
    });
 

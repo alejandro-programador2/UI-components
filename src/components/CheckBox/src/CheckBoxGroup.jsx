@@ -4,13 +4,19 @@ import PropTypes from "prop-types";
 import { getChildrenByType } from "utils/validations/getChildrenType";
 
 export const CheckBoxGroup = ({ legend, children: childrenProps, onChecked, addClass }) => {
+   /**
+    * Estado usado para almacenar los objetos
+    * provenientes de los checkbox que han sido seleccionados.
+    */
    const [checked, setChecked] = useState([]);
 
    /**
-    * Detecta cada vez que un input está seleccionado y lo agrega a un array
-    * @param { value } - Array de opciones seleccionadas
+    * Función callback que se pasa como parámetro del componente CheckBox
+    * y retorna un objeto con los valores ID y value.
+    *
+    * @param {Object} value - Objeto { Id, value }
     */
-   const detectCheckedValues = (value) => {
+   const onCheck = (value) => {
       const validate = checked.filter((option) => option.id === value.id);
 
       if (validate.length) {
@@ -26,16 +32,14 @@ export const CheckBoxGroup = ({ legend, children: childrenProps, onChecked, addC
       }
    }, [checked]);
 
+   /**
+    * Necesitamos agregar las propiedades onClick al componente CheckBox.
+    */
    const children = Children.map(childrenProps, (child) => {
-      if (!isValidElement(child)) {
-         return null;
-      }
+      if (!isValidElement(child)) return null;
 
       if (child.props.__TYPE === "CheckBox") {
-         return cloneElement(child, {
-            ...child.props,
-            onClick: detectCheckedValues,
-         });
+         return cloneElement(child, { ...child.props, onClick: onCheck });
       }
 
       return child;
@@ -50,8 +54,8 @@ export const CheckBoxGroup = ({ legend, children: childrenProps, onChecked, addC
 };
 
 CheckBoxGroup.propTypes = {
-   legend: PropTypes.string,
    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]),
+   legend: PropTypes.string,
    onChecked: PropTypes.func,
    addClass: PropTypes.string,
 };

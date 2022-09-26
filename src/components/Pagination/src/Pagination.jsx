@@ -5,8 +5,11 @@ import { usePagination } from "hooks/usePagination";
 
 import css from "./Pagination.module.scss";
 
-// Objeto que contiene las definiciones en español
-// de diferentes terminos usados en el aria-label
+/**
+ * Se crea un objeto que no se puede cambiar para  
+ * almacenar las definiciones en español
+ * de diferentes terminos usados en el aria-label.
+ */
 const getSpanishType = Object.freeze({
    first: "primera",
    last: "última",
@@ -15,8 +18,9 @@ const getSpanishType = Object.freeze({
 });
 
 /**
- * Función utilizada para definir el aria-label de
- * los elementos de la paginación.
+ * 
+ * Se crea una función que permite definir el aria-label
+ * de los elementos que son usados para crear la paginación.
  *
  * @param {String} type - Tipo de elemento
  * @param {Number} page - Número de la página
@@ -31,7 +35,11 @@ const defaultAriaLabel = (type, page, selected) => {
 };
 
 export const Pagination = ({ renderItem, getItemAriaLabel, addClass, ...props }) => {
-   // Utilizamos el hook usePagination
+
+   /**
+    * Se utiliza el custom hook usePagination para
+    * obtener la paginación.
+    */
    const { items } = usePagination({ ...props });
 
    return (

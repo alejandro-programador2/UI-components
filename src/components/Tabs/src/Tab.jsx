@@ -7,13 +7,20 @@ import { TabsContext } from "components/Tabs";
 import css from "./Tabs.module.scss";
 
 export const Tab = ({ children, id, selected, addClass, icon, addNewRef, onNavigation, __TYPE, ...props }) => {
-   // Referencia del botón
+   /**
+    * Necesitamos obtener la referencia del botón
+    * para luego pasarla en la función addNewRef proveniente
+    * de las propiedades.
+    */
    const refButton = useRef();
 
-   // Obtenemos las funciones validation y onToggle del contexto
+   /**
+    * Obtenemos las funciones validation y onToggle del contexto creado en Tabs.
+    */
    const { validation, onToggle } = useContext(TabsContext);
 
    /**
+    * variable que almacena el resultado de validation.
     * Devuelve "true" o "false" apartir de evaluar
     * el id con el estado.
     *

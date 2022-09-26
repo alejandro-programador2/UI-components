@@ -6,7 +6,11 @@ import { Icon } from "components/Icon";
 import css from "./Pagination.module.scss";
 
 export const PaginationItem = ({ page, type, addClass, disabled, element, icons, selected, ...props }) => {
-   // Objeto que contiene los diferentes tipos de iconos a utilizar.
+   /**
+    * Se crea un objeto con el fin de almacenar los diferentes
+    * tipos de iconos que se usaran para los botones previus,
+    * next, last y first de la páginación.
+    */
    const normalizedIcons = {
       previous: icons.previous || "navigate_before",
       next: icons.next || "navigate_next",
@@ -14,7 +18,7 @@ export const PaginationItem = ({ page, type, addClass, disabled, element, icons,
       first: icons.first || "first_page",
    };
 
-   // Variable que contiene el icono a utilizar dependiendo de la propieda type.
+   // Variable que contiene el icono a utilizar dependiendo de la propiedad type.
    const icon = normalizedIcons[type];
 
    return type === "start-ellipsis" || type === "end-ellipsis" ? (
