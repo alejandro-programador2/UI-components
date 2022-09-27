@@ -3,3 +3,14 @@
 @use 'generic/generic.scss';
 @use 'tools/tools.scss';
 @use 'utilities/utilities.scss';
+
+body {
+    background-color: #fff;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+
+body[data-dark-mode="true"] {
+    background-color: #232323;
+}

@@ -1,5 +1,28 @@
 import { useState } from "react";
 
+/**
+ * Hook para crear una Paginación.
+ *
+ * Realiza la creación de la estructura base para realizar una páginación,
+ * incluyendo botones de siguiente, anterior, primera página y última página.
+ *
+ * @example
+ *
+ * const { items } = usePagination({ ...props });
+ *
+ * @param {Number} boundaryCount - Número de páginas que hay en el limite e.g. [1,2,3,...4,5,...7,8,9].
+ * @param {Number} count - Número de página que va a tener la paginación.
+ * @param {Number} defaultPage - Número de la página por defecto.
+ * @param {Number} disabled - Deshabilita las páginas.
+ * @param {Number} hideNextButton - Muestra/Oculta el botón de siguiente.
+ * @param {Number} hidePrevButton - Muestra/Oculta el botón de anterior.
+ * @param {Number} onChange - Método que se ejecuta al cambio de página.
+ * @param {Number} showFirstButton - Muestra/Oculta el botón de primera página.
+ * @param {Number} showLastButton - Muestra/Oculta el botón de última página.
+ * @param {Number} siblingCount - Número de página hermanas que va a tener la página seleccionada.
+ *
+ * @returns {Object} items - Arreglo de items con la estructua de la páginación.
+ */
 const usePagination = (props) => {
    const {
       boundaryCount = 1,
