@@ -18,7 +18,7 @@ export default {
             </Col>
          </Row>
       ),
-   ]
+   ],
 };
 
 const Template = (args) => <CheckBox {...args} />;

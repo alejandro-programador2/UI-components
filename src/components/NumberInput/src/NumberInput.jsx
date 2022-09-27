@@ -36,14 +36,14 @@ export const NumberInput = ({ children, addClass, keepWithinRange, defaultValue,
    /**
     * Función callback que se utiliza para cambiar el valor
     * del input apartir del valor pasado por medio de esta.
-    * 
+    *
     * @param {number} value - valor del contador
     */
    const onChangeValue = (value) => setCounter(value);
 
    /**
-    * 
-    * Función que se utiliza para comprobar si el valor de las 
+    *
+    * Función que se utiliza para comprobar si el valor de las
     * propiedades min o max es igual al valor del contador.
     *
     * @param {number} prop
