@@ -11,7 +11,7 @@ export const InputGroup = ({ children: childrenProps, onAllValue }) => {
    /**
     * Función callback que se pasa como parámetro del componente Input
     * y retorna un objeto con los valores ID y value.
-    * 
+    *
     * @param {Object} choise - Objeto { Id, value }
     */
    const onAddValue = (choise) => setAllValue([...allValue.filter((option) => option.id !== choise.id), { ...choise }]);
@@ -22,9 +22,9 @@ export const InputGroup = ({ children: childrenProps, onAllValue }) => {
    }, [allValue]);
 
    /**
-    * Función que se realizo para agregar las propiedades onValue 
+    * Función que se realizo para agregar las propiedades onValue
     * al componente Input que se pasa junto al InputStyle.
-    * 
+    *
     * @param {ReactNode[]} childs - Arreglo de childrens.
     * @param {string} type - Tipo de child a modificar.
     * @param {object} properties - Objeto de propiedades para agregar a los children.

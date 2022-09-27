@@ -12,7 +12,7 @@ export const AccordionItem = ({ children: childrenProp, id, isOpen, onToggle, ad
     * onToggle proveniente de las props desde acá,
     * de tal manera que no necesitamos pasar el ID
     * ni la función a cada hijo.
-    * 
+    *
     * @returns {function} onToggle - Abre el Accordion.
     */
    const onExpanded = () => onToggle(id);
@@ -35,7 +35,7 @@ export const AccordionItem = ({ children: childrenProp, id, isOpen, onToggle, ad
    };
 
    /**
-    * Necesitamos agregar las propiedades onExpanded, isExpanded, a los dos 
+    * Necesitamos agregar las propiedades onExpanded, isExpanded, a los dos
     * diferentes tipos de hijos que recibe el componete.
     */
    const children = Children.map(childrenProp, (child) => {
