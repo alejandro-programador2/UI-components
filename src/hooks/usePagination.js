@@ -3,7 +3,7 @@ import { useState } from "react";
 /**
  * Hook para crear una Paginación.
  *
- * Realiza la creación de la estructura base para realizar una páginación,
+ * Este hook realiza la creación de la estructura base para realizar una páginación,
  * incluyendo botones de siguiente, anterior, primera página y última página.
  *
  * @example
@@ -21,7 +21,7 @@ import { useState } from "react";
  * @param {Number} showLastButton - Muestra/Oculta el botón de última página.
  * @param {Number} siblingCount - Número de página hermanas que va a tener la página seleccionada.
  *
- * @returns {Object} items - Arreglo de items con la estructua de la páginación.
+ * @returns {Object} Arreglo de items con la estructua de la páginación.
  */
 const usePagination = (props) => {
    const {
