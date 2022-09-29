@@ -22,7 +22,7 @@ import { useState, useEffect } from "react";
  * @param {Array} values - Arreglo de valores de cada queries.
  * @param {any} defaultValue - Valor por defecto.
  *
- * @returns {any} value - Retorna el valor de la media quiery al cumplirse.
+ * @returns {any} Retorna el valor de la media quiery al cumplirse.
  */
 const useMedia = (queries, values, defaultValue) => {
    /**

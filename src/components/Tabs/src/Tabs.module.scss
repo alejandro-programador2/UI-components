@@ -10,7 +10,7 @@
     border-color: var(--clr-neutral-200);
     background: transparent;
     cursor: pointer;
-    transition: border-color, color 200ms ease;
+    transition: border-color, color, background, 200ms ease;
 }
 
 .c-tab__button {

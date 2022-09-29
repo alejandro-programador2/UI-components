@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 /**
- * Hook para crear Media Queries.
+ * Hook para manejar el localStorage.
  *
  * Maneja automaticamente la creación y actualización de la información en el localStorage.
  * El uso es similar a useState excepto que pasamos una clave de almacenamiento local para que podamos
@@ -15,7 +15,7 @@ import { useState } from "react";
  * @param {String} key - LLave relacionada al valor en el localStorage.
  * @param {any} initialValue - Valor del localStorage.
  *
- * @returns {any} value - Retorna el valor de la media quiery al cumplirse.
+ * @returns {any} Retorna el valor del Localstorage y el setter
  */
 
 const useLocalStorage = (key, initialValue) => {
