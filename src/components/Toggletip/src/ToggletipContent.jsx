@@ -29,18 +29,18 @@ export const ToggletipContent = ({ children, addClass, hasArrow, isDisabled, dis
       const buttonElement = refButton.current;
 
       // Sacamos el primer elemento de la lista.
-      const firstElement = focusableElements[0];
+      const FIRST_ELEMENT = focusableElements[0];
       // Sacamos el último elemento de la lista.
-      const lastElement = focusableElements[focusableElements.length - 1];
+      const LAST_ELEMENT = focusableElements[focusableElements.length - 1];
 
       // Si va hacia adelante usando tab y el último elemento está activo, entonces agregar el focus al elemento padre.
-      if (!e.shiftKey && document.activeElement === lastElement) {
+      if (!e.shiftKey && document.activeElement === LAST_ELEMENT) {
          buttonElement.focus();
          return e.preventDefault();
       }
 
       // Si va hacia atrás usando shift + tab y el primer elemento está activo, entonces agregar el focus al elemento padre.
-      if (e.shiftKey && document.activeElement === firstElement) {
+      if (e.shiftKey && document.activeElement === FIRST_ELEMENT) {
          buttonElement.focus();
          e.preventDefault();
       }

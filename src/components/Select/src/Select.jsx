@@ -24,7 +24,7 @@ export const Select = forwardRef(({ children, addClass, placeholder, label, icon
     * el estado y si existe la propiedad onChoise le pasamos
     * los parámetros id y value del input.
     *
-    * @param {target} target - HTMLSelectElement
+    * @param {HTMLSelectElement} target - HTMLSelectElement
     */
    const onChange = ({ target }) => {
       if (onChoise) onChoise({ id: select, value: target.value });
