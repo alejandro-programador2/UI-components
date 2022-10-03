@@ -6,7 +6,34 @@ import { Icon } from "components/Icon";
 
 import css from "./Panel.module.scss";
 
-export const NavSection = ({ renderItem, showPrevButton, showNextButton, icons, label, orientation, onValue, addClass }) => {
+/**
+ * Se crea un objeto que no se puede cambiar para
+ * almacenar las definiciones en español
+ * de diferentes terminos usados en el aria-label.
+ */
+const getSpanishType = Object.freeze({
+   previous: "anterior",
+   next: "siguiente",
+});
+
+/**
+ *
+ * Se crea una función que permite definir el aria-label
+ * de los elementos que son usados en la navegación de la secciones.
+ *
+ * @param {String} type - Tipo de elemento
+ * @param {Number} section - Número de la sección
+ * @param {Boolean} selected - Boolean que informa si está la sección seleccionada.
+ * @returns {string} Message - Mensaje utiliado en el aria-label
+ */
+const defaultAriaLabel = (type, section, selected) => {
+   if (type === "section") {
+      return `${selected ? "" : "Ir a la "}sección ${section}`;
+   }
+   return `Ir a la ${getSpanishType[type]} sección`;
+};
+
+export const NavSection = ({ renderItem, showPrevButton, showNextButton, icons, label, orientation, onValue, addClass, getItemAriaLabel }) => {
    /**
     * Obtenemos las propiedaes validation,
     * onToggle, listId y currentSection del contexto.
@@ -69,7 +96,12 @@ export const NavSection = ({ renderItem, showPrevButton, showNextButton, icons, 
     *
     * @param {HTMLElement} ref - Referencia del botón.
     */
-   const addNewRef = (ref) => (refSections.current = [...refSections.current, ref]);
+   const addNewRef = (ref) => {
+      if (!refSections.current.includes(ref) && ref) {
+         return (refSections.current = [...refSections.current, ref]);
+      }
+      return refSections.current;
+   };
 
    /**
     * Función utilizada en el evento KeyDown del botón,
@@ -171,12 +203,16 @@ export const NavSection = ({ renderItem, showPrevButton, showNextButton, icons, 
                              tabIndex={`${selected ? 0 : -1}`}
                              aria-selected={selected}
                              className={css["c-navigation__section"]}
+                             aria-label={getItemAriaLabel(type, section, selected)}
+                             {...others}
+                          />
+                       ) : (
+                          <button
+                             type="button"
+                             className={`${css["c-navigation__button"]}`}
+                             aria-label={getItemAriaLabel(type, section, selected)}
                              {...others}
                           >
-                             <span className="u-sr-only">Sección {section}</span>
-                          </button>
-                       ) : (
-                          <button type="button" className={`${css["c-navigation__button"]}`} {...others}>
                              {normalizedIcons[type] ? <Icon name={normalizedIcons[type]} key={type} /> : null}
                           </button>
                        )}
@@ -199,6 +235,7 @@ NavSection.propTypes = {
    orientation: PropTypes.string,
    onValue: PropTypes.func,
    addClass: PropTypes.string,
+   getItemAriaLabel: PropTypes.func,
 };
 
 NavSection.defaultProps = {
@@ -208,4 +245,5 @@ NavSection.defaultProps = {
    },
    label: "Lista de secciones",
    orientation: "horizontal",
+   getItemAriaLabel: defaultAriaLabel,
 };

@@ -20,7 +20,6 @@ export const Section = ({ children, id, addClass, __TYPE, ...props }) => {
 
    return (
       <section
-         id={`section-${id}`}
          role="tabpanel"
          tabIndex={-1}
          hidden={!isSelected}
