@@ -27,7 +27,7 @@
 }
 
 :where(.c-navigation__item) {
-    align-self: flex-start;
+    align-self: center;
 }
 
 :where(.c-navigation__section) {
@@ -74,4 +74,6 @@
     opacity: 0.38;
     pointer-events: none;
     cursor: default;
+    border: 1px solid var(--clr-neutral-400);
+    stroke: var(--clr-neutral-400);
 }

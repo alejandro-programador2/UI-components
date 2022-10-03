@@ -26,10 +26,10 @@ export const Default = () => (
    <Panel>
       <NavSection />
 
-      <Section>First section 1️⃣</Section>
-      <Section>Second section 2️⃣</Section>
-      <Section>Third section 3️⃣</Section>
-      <Section>Fourth section 4️⃣</Section>
+      <Section>First section </Section>
+      <Section>Second section </Section>
+      <Section>Third section </Section>
+      <Section>Fourth section </Section>
    </Panel>
 );
 
@@ -39,10 +39,10 @@ export const WithButton = () => (
    <Panel>
       <NavSection showNextButton showPrevButton />
 
-      <Section>First section 1️⃣</Section>
-      <Section>Second section 2️⃣</Section>
-      <Section>Third section 3️⃣</Section>
-      <Section>Fourth section 4️⃣</Section>
+      <Section>First section </Section>
+      <Section>Second section </Section>
+      <Section>Third section </Section>
+      <Section>Fourth section </Section>
    </Panel>
 );
 
@@ -52,10 +52,10 @@ export const WithDefautlIndex = () => (
    <Panel defaultIndex={3}>
       <NavSection />
 
-      <Section>First section 1️⃣</Section>
-      <Section>Second section 2️⃣</Section>
-      <Section>Third section 3️⃣</Section>
-      <Section>Fourth section 4️⃣</Section>
+      <Section>First section </Section>
+      <Section>Second section </Section>
+      <Section>Third section </Section>
+      <Section>Fourth section </Section>
    </Panel>
 );
 
@@ -66,7 +66,7 @@ export const WithButtonSection = () => (
       <NavSection />
 
       <Section>
-         First section 1️⃣
+         First section
          <ButtonSection section={2}>
             <Button
                label="Go to the second section"
@@ -81,9 +81,9 @@ export const WithButtonSection = () => (
          </ButtonSection>
       </Section>
 
-      <Section>Second section 2️⃣</Section>
+      <Section>Second section </Section>
       <Section>
-         Third section 3️⃣
+         Third section
          <ButtonSection section={1}>
             <Button
                label="Go to the first section"
@@ -97,7 +97,7 @@ export const WithButtonSection = () => (
             />
          </ButtonSection>
       </Section>
-      <Section>Fourth section 4️⃣</Section>
+      <Section>Fourth section </Section>
    </Panel>
 );
 
