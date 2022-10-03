@@ -7,13 +7,20 @@ import { getChildrenByType } from "utils/validations/getChildrenType";
 import css from "./Accordion.module.scss";
 
 export const AccordionItem = ({ children: childrenProp, id, isOpen, onToggle, addClass }) => {
-   // Función para abrir el accordion.
+   /**
+    * Se crea la función onExpanded para lanzar la función
+    * onToggle proveniente de las props desde acá,
+    * de tal manera que no necesitamos pasar el ID
+    * ni la función a cada hijo.
+    *
+    * @returns {function} onToggle - Abre el Accordion.
+    */
    const onExpanded = () => onToggle(id);
 
    /**
     * Valida si el estado es un "Array" o "Number"
-    * y devuelve "true" o "false" apartir de evaluar
-    * el id con el estado.
+    * y devuelve "true" o "false" apartir de comporar
+    * el ID con el estado.
     *
     * @returns {(Boolean)}
     */
@@ -27,6 +34,10 @@ export const AccordionItem = ({ children: childrenProp, id, isOpen, onToggle, ad
       }
    };
 
+   /**
+    * Necesitamos agregar las propiedades onExpanded, isExpanded, a los dos
+    * diferentes tipos de hijos que recibe el componete.
+    */
    const children = Children.map(childrenProp, (child) => {
       if (!isValidElement(child)) return null;
 

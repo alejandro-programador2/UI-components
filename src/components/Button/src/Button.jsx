@@ -1,21 +1,14 @@
 import { forwardRef } from "react";
 import PropTypes from "prop-types";
 
-import { Icon, iconList } from "components/Icon";
+import { Icon } from "components/Icon";
+import { iconList } from "utils/icons/iconsList";
+
 import css from "./Button.module.scss";
 
-/**
- * Usuario: bb-frontend-7
- * Descripción: Crea un botón.
- * param { styled, label, hasAriaLabel, icon, disabled }
- * - styled: definición del estilo del botón. La lista está en Button.propTypes
- * - label: etiqueta del botón
- * - hasAriaLabel: determina si la etiqueta será usada como un aria-label (si es true) o será mostrada como texto de forma normal (si es false)
- * - icon: determina el nombre del ícono de Google Icons que será usado.
- * - disabled: determina si el botón estará o no deshabilitado.
- **/
+export const Button = forwardRef((props, ref) => {
+   const { label, size, icon, type, variant, hasAriaLabel, disabled, onClick, children, addClass, ...others } = props;
 
-export const Button = forwardRef(({ label, size, icon, type, variant, hasAriaLabel, disabled, onClick, children, addClass, ...props }, ref) => {
    return (
       <button
          ref={ref}
@@ -23,13 +16,13 @@ export const Button = forwardRef(({ label, size, icon, type, variant, hasAriaLab
         ${icon && icon.position === "right" ? css["c-reverse"] : ""} u-flex ${addClass ?? ""}`}
          disabled={disabled}
          type={type}
-         aria-label={hasAriaLabel ? `${label}` : undefined}
          onClick={onClick}
-         {...props}
+         {...(hasAriaLabel && { "aria-label": `${label}` })}
+         {...others}
       >
          {children}
          {icon && <Icon name={icon.name} size={icon.size} />}
-         {!hasAriaLabel ? label : ""}
+         {!hasAriaLabel ? label : null}
       </button>
    );
 });

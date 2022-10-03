@@ -27,11 +27,12 @@ const addRootElement = (rootElem) => {
  * Maneja automaticamente la creación y desmontaje del elemento padre, por lo que no es
  * necesario asegurarse que el elemento ya exista en el Body.
  * @example
- *  const target = usePortal(id)
- *  return createPortal(children, target)
+ *  const target = usePortal(id);
+ *  return createPortal(children, target);
  *
- * @param {string} id - El id del contendor padre, e.g 'modal' o 'toggletip'
- * @returns {HTMLElement} - El nodo del DOM que se usa como base del portal
+ * @param {string} id - El id del contendor padre, e.g 'modal' o 'toggletip'.
+ *
+ * @returns {HTMLElement} El nodo del DOM que se usa como base del portal
  */
 const usePortal = (id) => {
    const rootElement = useRef(null);

@@ -1,31 +1,29 @@
 import PropTypes from "prop-types";
 
 import { typeValidation } from "utils/validations/typeValidation";
+import { iconList } from "utils/icons/iconsList";
+
 import css from "./Icon.module.scss";
 
-export const iconList = [
-   "close",
-   "check",
-   "play",
-   "pause",
-   "volume_on",
-   "volume_off",
-   "done_all",
-   "fullscreen",
-   "fullscreen_exit",
-   "arrow_drop_down",
-   "closed_caption",
-];
-
 export const Icon = ({ name, size, addClass }) => {
+   /**
+    * Evaluamos la propiedad name para no retonar nada si está no existe.
+    */
    if (!name) {
       return null;
    }
 
+   /**
+    * Si el nombre del icono no está en el array iconList, entonces
+    * se muestra un mensaje informativo.
+    */
    if (!iconList.includes(name)) {
       return <span>Doesn&apos;t exist</span>;
    }
 
+   /**
+    * Se crea la URL del icono apartir del nombre de este.
+    */
    const svgURL = require(`../../../assets/icons/svg/${name}.svg`);
 
    return (

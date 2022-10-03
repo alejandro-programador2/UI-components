@@ -9,20 +9,30 @@ import { typeValidation } from "utils/validations/typeValidation";
 import css from "./Select.module.scss";
 
 export const Select = forwardRef(({ children, addClass, placeholder, label, icon, isLabelVisible, isDisabled, isRequired, onChoise }, ref) => {
-   // Estado para controlar el select
+   // Usado para controlar el valor la opción seleccionada en el select.
    const [choise, setChoise] = useState();
 
-   // Creamos el id para el select
+   /**
+    * Se crea un ID para identificar el select y además
+    * para pasarlo dentro la función onChoise proveniente
+    * de los props.
+    */
    const select = useMemo(() => _uniquedId("c-select-"), []);
 
+   /**
+    * Detecta cuando el select tiene un cambio así actualizamos
+    * el estado y si existe la propiedad onChoise le pasamos
+    * los parámetros id y value del input.
+    *
+    * @param {HTMLSelectElement} target - HTMLSelectElement
+    */
    const onChange = ({ target }) => {
-      // Si existe la propiedad onChose emita el valor del estado
       if (onChoise) onChoise({ id: select, value: target.value });
       setChoise(target.value);
    };
 
    return (
-      <label htmlFor={select} className={`${addClass ?? ""}`}>
+      <label htmlFor={select} {...(addClass && { className: `${addClass}` })}>
          <span className={`${!isLabelVisible && "u-sr-only"}`}> {label} </span>
 
          <div className={css["c-select-wrapper"]}>

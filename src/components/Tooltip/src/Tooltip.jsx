@@ -24,7 +24,7 @@ export const Tooltip = ({ children: childrenProps, label, placement, addClass, h
 
    /**
     * Función para manejar el evento focus del elemento padre.
-    * @param {Event} _
+    * @param {Event} Event
     */
    const onFocus = (_) => {
       if (!isOpen) setIsOpen(!isOpen);
@@ -32,13 +32,13 @@ export const Tooltip = ({ children: childrenProps, label, placement, addClass, h
 
    /**
     * Función para manejar el evento leave focus del elemento padre.
-    * @param {Event} _
+    * @param {Event} Event
     */
    const onBlur = (_) => setIsOpen(false);
 
    /**
     * Función para manejar el evento mouseover del elemento padre.
-    * @param {Event} _
+    * @param {Event} Event
     */
    const onMouseOver = (_) => {
       if (!isOpen || document.activeElement !== refElement.current) setIsOpen(!isOpen);
@@ -46,13 +46,13 @@ export const Tooltip = ({ children: childrenProps, label, placement, addClass, h
 
    /**
     * Función para manejar el evento mouseout del elemento padre.
-    * @param {Event} _
+    * @param {Event} Event
     */
    const onMouseOut = (_) => setIsOpen(false);
 
    /**
     * Función para manejar el evento keydown del elemento padre.
-    * @param {Event} _
+    * @param {Event} Event
     */
    const onKeyDown = (e) => {
       if ((e.keyCode | e.which) === 27 && isOpen) {

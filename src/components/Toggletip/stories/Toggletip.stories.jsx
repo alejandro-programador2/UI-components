@@ -1,5 +1,8 @@
 import React from "react";
 
+import { Col } from "components/Col";
+import { Row } from "components/Row";
+
 import { Toggletip, ToggletipButton, ToggletipContent } from "components/Toggletip";
 import { Button } from "components/Button";
 
@@ -8,11 +11,13 @@ export default {
    component: Toggletip,
    decorators: [
       (story) => (
-         <div style={{ display: "flex", justifyContent: "center" }}>
-            <div className="u-flex u-my-5" style={{ minWidth: "30vw", maxWidth: "55vw", alignItems: "center", justifyContent: "center" }}>
-               {story()}
-            </div>
-         </div>
+         <Row justify-content="center" align-items="center">
+            <Col xs="11" mm="10" md="9" lg="5" hd="4">
+               <Row justify-content="center" align-items="center" addClass="u-my-5">
+                  {story()}
+               </Row>
+            </Col>
+         </Row>
       ),
    ],
 };

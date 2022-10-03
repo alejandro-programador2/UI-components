@@ -4,27 +4,27 @@ import _uniqueId from "lodash/uniqueId";
 
 import { Icon } from "components/Icon";
 import { typeValidation } from "utils/validations/typeValidation";
+
 import css from "./CheckBox.module.scss";
 
-/**
- * Usuario: bb-frontend-7
- * Descripción: Crea un input tipo checkbox, toggle o radio
- * param { type, label, stateInput, name, addClass }
- * - type: El tipo del input que se creará. Los valores son "radio", "checkbox" o "toggle"
- * - label: etiqueta que describirá el elemento.
- * - addClass: clase adicional que se necesite agregar al input
- **/
-
 export const CheckBox = ({ type, label, state, name, onClick, addClass, __TYPE, ...args }) => {
-   const id = useMemo(() => _uniqueId(`ui-${type}`), []);
-
+   // Utilizado para controlar el valor del input.
    const [value, SetValue] = useState(name);
 
    /**
-    * Detecta cuando se el input se activa o se desactiva y trae el id y el value
-    * @param { target } - Nodo del DOM
+    * Se crea un ID para identificar el input y además
+    * para pasarlo dentro la función onClick proveniente
+    * de los props.
     */
+   const id = useMemo(() => _uniqueId(`ui-${type}`), []);
 
+   /**
+    * Detecta cuando el input tiene un cambio así actualizamos
+    * el estado y si existe la propiedad onClick le pasamos
+    * los parámetros id y value del input.
+    *
+    * @param { target } - Nodo del DOM.
+    */
    const onChange = ({ target }) => {
       if (onClick) {
          onClick({ id: target.id, value: target.value });
@@ -32,22 +32,12 @@ export const CheckBox = ({ type, label, state, name, onClick, addClass, __TYPE, 
       SetValue(target.value);
    };
 
-   /**
-    * Determina el nombre del ícono
-    * @returns String del nombre del ícono
-    */
-
-   const handleIconName = () => {
-      if (state === "right") {
-         return "done_all";
-      } else if (state === "wrong") {
-         return "close";
-      } else if (type === "checkbox" && state === "normal") {
-         return "check";
-      } else {
-         return null;
-      }
-   };
+   // Objeto con la lista de iconos que dependen del la propiedad state.
+   const ICON_STATE = Object.freeze({
+      right: "done_all",
+      wrong: "close",
+      normal: type === "checkbox" ? "check" : null,
+   });
 
    return (
       <label
@@ -59,10 +49,8 @@ export const CheckBox = ({ type, label, state, name, onClick, addClass, __TYPE, 
          {...args}
       >
          <div className={css["c-input__box"]}>
-            <input onChange={onChange} className={css["c-input__check"]} data-state={state} type={type} id={id} name={name} value={value} />
-            <div className={css["c-input__icon"]}>
-               <Icon name={handleIconName()} />
-            </div>
+            <input id={id} type={type} name={name} value={value} data-state={state} className={css["c-input__check"]} onChange={onChange} />
+            <div className={css["c-input__icon"]}>{ICON_STATE[state] && <Icon name={ICON_STATE[state]} />}</div>
          </div>
          <span className={css["c-input__label"]}>{label}</span>
       </label>

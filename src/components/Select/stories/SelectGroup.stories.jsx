@@ -1,5 +1,8 @@
 import React from "react";
 
+import { Col } from "components/Col";
+import { Row } from "components/Row";
+
 import { SelectGroup, Select } from "components/Select";
 
 export default {
@@ -7,9 +10,11 @@ export default {
    component: SelectGroup,
    decorators: [
       (story) => (
-         <div style={{ display: "flex", justifyContent: "center" }}>
-            <div style={{ minWidth: "30vw", maxWidth: "35vw" }}>{story()}</div>
-         </div>
+         <Row justify-content="center" align-items="center">
+            <Col xs="11" mm="10" md="9" lg="5" hd="4">
+               {story()}
+            </Col>
+         </Row>
       ),
    ],
 };
