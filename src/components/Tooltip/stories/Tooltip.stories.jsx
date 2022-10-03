@@ -11,9 +11,9 @@ export default {
    component: Tooltip,
    decorators: [
       (story) => (
-         <Row display="flex" justify-content="center" align-items="center">
+         <Row justify-content="center" align-items="center">
             <Col xs="11" mm="10" md="9" lg="6" hd="5">
-               <Row display="flex" justify-content="center" align-items="center" addClass="u-my-5" style={{ gap: "1rem" }}>
+               <Row justify-content="center" align-items="center" addClass="u-my-5" style={{ gap: "1rem" }}>
                   {story()}
                </Row>
             </Col>

@@ -10,7 +10,7 @@ export default {
    component: Tabs,
    decorators: [
       (story) => (
-         <Row display="flex" justify-content="center" align-items="center">
+         <Row justify-content="center" align-items="center">
             <Col xs="11" mm="10" md="9" lg="5" hd="4">
                {story()}
             </Col>
@@ -28,9 +28,9 @@ const Template = (args) => (
       </TabList>
 
       <TabPanels>
-         <TabPanel>First panel</TabPanel>
-         <TabPanel>Second panel</TabPanel>
-         <TabPanel>Third panel</TabPanel>
+         <TabPanel>First panel 1️⃣</TabPanel>
+         <TabPanel>Second panel 2️⃣</TabPanel>
+         <TabPanel>Third panel 3️⃣</TabPanel>
       </TabPanels>
    </Tabs>
 );
@@ -44,9 +44,9 @@ const TemplateTab = (args) => (
       </TabList>
 
       <TabPanels>
-         <TabPanel>First panel</TabPanel>
-         <TabPanel>Second panel</TabPanel>
-         <TabPanel>Third panel</TabPanel>
+         <TabPanel>First panel 1️⃣</TabPanel>
+         <TabPanel>Second panel 2️⃣</TabPanel>
+         <TabPanel>Third panel 3️⃣</TabPanel>
       </TabPanels>
    </Tabs>
 );

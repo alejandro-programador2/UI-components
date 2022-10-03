@@ -10,9 +10,9 @@ export default {
    component: Kbd,
    decorators: [
       (story) => (
-         <Row display="flex" justify-content="center" align-items="center">
+         <Row justify-content="center" align-items="center">
             <Col xs="11" mm="10" md="9" lg="3" hd="2">
-               <Row display="flex" justify-content="center" align-items="center">
+               <Row justify-content="center" align-items="center">
                   {story()}
                </Row>
             </Col>
