@@ -1,14 +1,10 @@
 .row {
-    width: 100%;
     position: relative;
     margin: 0 auto;
-    min-height: 1px;
-}
-
-.row[display='flex'] {
-    display: flex;
-    max-width: 100%;
     width: 100%;
+    max-width: 100%;
+    min-height: 1px;
+    display: flex;
     flex-wrap: wrap;
 }
 

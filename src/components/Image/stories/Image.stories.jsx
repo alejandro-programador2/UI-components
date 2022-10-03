@@ -10,7 +10,7 @@ export default {
    component: Image,
    decorators: [
       (story) => (
-         <Row display="flex" justify-content="center" align-items="center">
+         <Row justify-content="center" align-items="center">
             <Col xs="11" mm="10" md="9" lg="6" hd="5">
                {story()}
             </Col>
