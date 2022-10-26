@@ -24,4 +24,5 @@ export const iconList = [
    "first_page",
    "navigate_before",
    "navigate_next",
+   "open_with",
 ];

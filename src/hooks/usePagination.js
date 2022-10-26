@@ -13,12 +13,12 @@ import { useState } from "react";
  * @param {Number} boundaryCount - Número de páginas que hay en el limite e.g. [1,2,3,...4,5,...7,8,9].
  * @param {Number} count - Número de página que va a tener la paginación.
  * @param {Number} defaultPage - Número de la página por defecto.
- * @param {Number} disabled - Deshabilita las páginas.
- * @param {Number} hideNextButton - Muestra/Oculta el botón de siguiente.
- * @param {Number} hidePrevButton - Muestra/Oculta el botón de anterior.
- * @param {Number} onChange - Método que se ejecuta al cambio de página.
- * @param {Number} showFirstButton - Muestra/Oculta el botón de primera página.
- * @param {Number} showLastButton - Muestra/Oculta el botón de última página.
+ * @param {Boolean} disabled - Deshabilita las páginas.
+ * @param {Boolean} hideNextButton - Muestra/Oculta el botón de siguiente.
+ * @param {Boolean} hidePrevButton - Muestra/Oculta el botón de anterior.
+ * @param {Function} onChange - Método que se ejecuta al cambio de página.
+ * @param {Boolean} showFirstButton - Muestra/Oculta el botón de primera página.
+ * @param {Boolean} showLastButton - Muestra/Oculta el botón de última página.
  * @param {Number} siblingCount - Número de página hermanas que va a tener la página seleccionada.
  *
  * @returns {Object} Arreglo de items con la estructua de la páginación.
