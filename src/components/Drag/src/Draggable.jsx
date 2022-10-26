@@ -8,7 +8,7 @@ import { DragAndDropContext } from "components/Drag";
 
 import css from "./Drag.module.scss";
 
-export const Draggable = ({ children, id, addClass, dragging, label, attribute, element }) => {
+export const Draggable = ({ children, id, addClass, dragging, label, attribute, disabledDefaultAttributes, element }) => {
    /**
     * Creamos una variable con el elemento a generar
     * por el componente, esto nos permite usar
@@ -45,7 +45,7 @@ export const Draggable = ({ children, id, addClass, dragging, label, attribute, 
          className={`${css["c-draggable"]} ${isDragging === id ? dragging : ""} ${addClass ?? ""}`}
          style={{ transform: CSS.Translate.toString(transform) }}
          {...(validate && { [propValidate]: !!listId.includes(id) })}
-         {...attributes}
+         {...(!disabledDefaultAttributes && { ...attributes })}
          {...listeners}
       >
          {children}
@@ -56,6 +56,7 @@ export const Draggable = ({ children, id, addClass, dragging, label, attribute, 
 Draggable.defaultProps = {
    __TYPE: "draggable",
    dragging: css["c-draggable--active"],
+   disabledDefaultAttributes: false,
 };
 
 Draggable.propTypes = {
@@ -69,6 +70,7 @@ Draggable.propTypes = {
       roleDescription: PropTypes.string,
       tabIndex: PropTypes.number,
    }),
+   disabledDefaultAttributes: PropTypes.bool,
    element: PropTypes.string,
    __TYPE: typeValidation("draggable"),
 };

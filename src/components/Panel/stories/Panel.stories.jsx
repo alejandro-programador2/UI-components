@@ -26,7 +26,7 @@ export const Default = () => (
    <Panel>
       <NavSection />
 
-      <Section>First section </Section>
+      <Section>✌</Section>
       <Section>Second section </Section>
       <Section>Third section </Section>
       <Section>Fourth section </Section>
@@ -39,7 +39,7 @@ export const WithButton = () => (
    <Panel>
       <NavSection showNextButton showPrevButton />
 
-      <Section>First section </Section>
+      <Section>✌</Section>
       <Section>Second section </Section>
       <Section>Third section </Section>
       <Section>Fourth section </Section>
@@ -54,7 +54,7 @@ export const WithDefautlIndex = () => (
 
       <Section>First section </Section>
       <Section>Second section </Section>
-      <Section>Third section </Section>
+      <Section>✌</Section>
       <Section>Fourth section </Section>
    </Panel>
 );
@@ -66,7 +66,7 @@ export const WithButtonSection = () => (
       <NavSection />
 
       <Section>
-         First section
+         ✌
          <ButtonSection section={2}>
             <Button
                label="Go to the second section"

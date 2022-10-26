@@ -50,7 +50,7 @@
     background-color: #181a22;
     border-radius: 5px;
     box-shadow: var(--box-shadow);
-    transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0) scale(var(--scale, 1));
+    transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0);
     transition: box-shadow 300ms ease;
     font-weight: bold;
   }
@@ -66,7 +66,6 @@
 }
 
 .c-draggable--active>button {
-  --scale: 1.06;
   --box-shadow: -1px 0 15px 0 rgba(34, 33, 81, 0.01),
     0px 15px 15px 0 rgba(34, 33, 81, 0.25);
 }
@@ -92,11 +91,11 @@
 
 @keyframes pop {
   0% {
-    transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0) scale(1);
+    transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0);
   }
 
   100% {
-    transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0) scale(var(--scale));
+    transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0);
     box-shadow: var(--box-shadow);
   }
 }

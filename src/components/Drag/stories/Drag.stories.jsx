@@ -18,7 +18,7 @@ export const BasicSetup = () => (
       <Row justify-content="center" align-items="center">
          <Col xs="11" mm="10" md="9" lg="5" hd="4">
             <GeneralDraggable>
-               <Draggable id="A" label="Draggable item">
+               <Draggable id="A" label="Draggable item" disabledDefaultAttributes>
                   <Button icon={{ name: "open_with", size: "big" }} label="draggable" />
                </Draggable>
             </GeneralDraggable>
@@ -39,7 +39,7 @@ export const MultipleContainers = () => (
       <Row justify-content="center" align-items="center">
          <Col xs="11" mm="10" md="9" lg="5" hd="4">
             <GeneralDraggable addClass={css["c-general-container"]}>
-               <Draggable id="A1" label="Draggable item">
+               <Draggable id="A1" label="Draggable item" disabledDefaultAttributes>
                   <Button icon={{ name: "open_with", size: "big" }} label="draggable" />
                </Draggable>
             </GeneralDraggable>
@@ -70,11 +70,11 @@ export const MultipleDrags = () => (
       <Row justify-content="center" align-items="center">
          <Col xs="11" mm="10" md="9" lg="5" hd="5">
             <GeneralDraggable addClass={css["c-general-container"]}>
-               <Draggable id="A1" label="Draggable item">
+               <Draggable id="A1" label="Draggable item" disabledDefaultAttributes>
                   <Button icon={{ name: "open_with", size: "big" }} label="draggable A1" />
                </Draggable>
 
-               <Draggable id="B1" label="Draggable item">
+               <Draggable id="B1" label="Draggable item" disabledDefaultAttributes>
                   <Button icon={{ name: "open_with", size: "big" }} label="draggable B1" />
                </Draggable>
             </GeneralDraggable>
@@ -137,15 +137,15 @@ export const WithValidation = () => {
          <Row justify-content="center" align-items="center">
             <Col xs="11" mm="10" md="9" lg="6">
                <GeneralDraggable addClass={css["c-general-container"]}>
-                  <Draggable id="A1" label="Draggable first item" addClass={css["c-draggable"]}>
+                  <Draggable id="A1" label="Draggable first item" addClass={css["c-draggable"]} disabledDefaultAttributes>
                      <Button icon={{ name: "open_with", size: "big" }} label="draggable A1" />
                   </Draggable>
 
-                  <Draggable id="B1" label="Draggable second item" addClass={css["c-draggable"]}>
+                  <Draggable id="B1" label="Draggable second item" addClass={css["c-draggable"]} disabledDefaultAttributes>
                      <Button icon={{ name: "open_with", size: "big" }} label="draggable B1" />
                   </Draggable>
 
-                  <Draggable id="C1" label="Draggable third" addClass={css["c-draggable"]}>
+                  <Draggable id="C1" label="Draggable third" addClass={css["c-draggable"]} disabledDefaultAttributes>
                      <Button icon={{ name: "open_with", size: "big" }} label="draggable C1" />
                   </Draggable>
                </GeneralDraggable>
